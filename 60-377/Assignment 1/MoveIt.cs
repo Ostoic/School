@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class MoveIt : MonoBehaviour
 {
     public float speed = 1.0f;
@@ -45,6 +44,8 @@ public class MoveIt : MonoBehaviour
     {
         update_destination();
 
+        // We don't need to normalize any vectors since that's a part of the implementation of 
+        // Vector3.MoveTowards. The third parameter is the distance to "move towards" the target
         transform.position = 
             Vector3.MoveTowards(transform.position, current_destination, speed * Time.deltaTime);
 	}

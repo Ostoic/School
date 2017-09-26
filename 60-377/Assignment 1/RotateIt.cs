@@ -17,5 +17,5 @@ public class RotateIt : MonoBehaviour {
     {
         transform.Rotate(speed * Time.deltaTime);
         //transform.eulerAngles += speed * Time.deltaTime;
-	}
+    }
 }

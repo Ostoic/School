@@ -25,8 +25,14 @@ public class ResizeIt : MonoBehaviour
     {
         baseScale = transform.localScale;
 
+        // 4 times the original scale
         largeScale = baseScale * 4;
+
+        // Start from the base scale
         targetScale = largeScale;
+
+        // After resizing 4 times the base, 
+        // resize down to the base scale
         nextScale = baseScale;
     }
 
@@ -43,6 +49,8 @@ public class ResizeIt : MonoBehaviour
     {
         update_target_scale();
 
+        // We don't need to normalize any vectors since that's a part of the implementation of 
+        // Vector3.MoveTowards. The third parameter is the distance to "move towards" the target
         transform.localScale =
             Vector3.MoveTowards(transform.localScale, targetScale, speed * Time.deltaTime);
     }
