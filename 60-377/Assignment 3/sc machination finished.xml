@@ -1,0 +1,278 @@
+<graph version="v4.03" name="Starcraft Economy and Gameplay" author="" interval="1" timeMode="asynchronous" distributionMode="fixed speed" speed="100" actions="1" dice="D6" skill="" strategy="" multiplayer="" width="1000" height="1130" numberOfRuns="100" visibleRuns="25" colorCoding="0">
+  <connection type="Resource Connection" start="-1" end="-1" label="" position="0.5" color="Black" thickness="2">
+    <point x="258" y="185"/>
+    <point x="258" y="185"/>
+  </connection>
+  <connection type="Resource Connection" start="-1" end="-1" label="" position="0.5" color="Black" thickness="2">
+    <point x="537" y="285"/>
+    <point x="537" y="285"/>
+  </connection>
+  <connection type="Resource Connection" start="-1" end="-1" label="" position="0.5" color="Black" thickness="2">
+    <point x="187" y="232"/>
+    <point x="187" y="232"/>
+  </connection>
+  <connection type="Resource Connection" start="-1" end="-1" label="" position="0.5" color="Black" thickness="2">
+    <point x="NaN" y="228"/>
+    <point x="0" y="0"/>
+  </connection>
+  <connection type="Resource Connection" start="-1" end="-1" label="" position="0.5" color="Black" thickness="2">
+    <point x="8" y="230"/>
+    <point x="8" y="230"/>
+  </connection>
+  <connection type="Resource Connection" start="-1" end="-1" label="0" position="0.5" color="Black" thickness="2">
+    <point x="0" y="0"/>
+    <point x="0" y="0"/>
+  </connection>
+  <connection type="Resource Connection" start="-1" end="-1" label="0.5" position="0.5" color="Black" thickness="2">
+    <point x="0" y="0"/>
+    <point x="0" y="0"/>
+  </connection>
+  <connection type="Resource Connection" start="-1" end="-1" label="" position="0.5" color="Blue" thickness="2">
+    <point x="484" y="282"/>
+    <point x="484" y="282"/>
+  </connection>
+  <connection type="Resource Connection" start="62" end="64" label="0" position="0.5" color="Green" thickness="2"/>
+  <connection type="State Connection" start="34" end="142" label="> 0" position="0.5" color="Black" thickness="2"/>
+  <connection type="State Connection" start="94" end="30" label=">0" position="0.5" color="Black" thickness="2"/>
+  <connection type="State Connection" start="94" end="31" label=">0" position="0.5" color="Black" thickness="2"/>
+  <connection type="Resource Connection" start="35" end="142" label="" position="0.5" color="Black" thickness="2"/>
+  <connection type="Resource Connection" start="142" end="35" label="" position="0.5" color="Black" thickness="2"/>
+  <connection type="Resource Connection" start="57" end="59" label="5" position="0.5" color="Blue" thickness="2"/>
+  <connection type="Resource Connection" start="18" end="73" label="8" position="0.5" color="Purple" thickness="2"/>
+  <connection type="Resource Connection" start="24" end="94" label="" position="0.5" color="Red" thickness="2"/>
+  <connection type="Resource Connection" start="76" end="35" label="" position="0.5" color="Black" thickness="2"/>
+  <node symbol="Converter" x="180" y="400" color="Black" caption="Buy Pylon" thickness="2" captionPos="0.25" activationMode="interactive" pullMode="pull all" actions="1" resourceColor="Black"/>
+  <connection type="State Connection" start="35" end="14" label="+5" position="0.1" color="Black" thickness="2"/>
+  <connection type="State Connection" start="73" end="76" label=">0" position="0.5" color="Black" thickness="2"/>
+  <connection type="State Connection" start="73" end="31" label=">0" position="0.5" color="Purple" thickness="2"/>
+  <connection type="State Connection" start="73" end="30" label=">0" position="0.5" color="Purple" thickness="2">
+    <point x="377" y="266"/>
+  </connection>
+  <connection type="State Connection" start="150" end="73" label="-1" position="0.5" color="Black" thickness="2"/>
+  <node symbol="Converter" x="183" y="322" color="Black" caption="Buy Gateway" thickness="2" captionPos="0.25" activationMode="interactive" pullMode="pull all" actions="1" resourceColor="Black"/>
+  <connection type="Resource Connection" start="59" end="18" label="100" position="1" color="Blue" thickness="2"/>
+  <connection type="Resource Connection" start="59" end="31" label="100" position="-0.99" color="Blue" thickness="2">
+    <point x="80" y="320"/>
+    <point x="262" y="280"/>
+  </connection>
+  <connection type="Resource Connection" start="59" end="61" label="75" position="0.96" color="Blue" thickness="2"/>
+  <connection type="Resource Connection" start="59" end="76" label="50" position="0.88" color="Blue" thickness="2"/>
+  <connection type="Resource Connection" start="59" end="24" label="150" position="1" color="Blue" thickness="2"/>
+  <node symbol="Converter" x="345" y="303" color="Black" caption="Buy Dragoon" thickness="2" captionPos="0.19" activationMode="interactive" pullMode="pull all" actions="1" resourceColor="Black"/>
+  <node symbol="Converter" x="343" y="217" color="Black" caption="Buy Zealot" thickness="2" captionPos="0.19" activationMode="interactive" pullMode="pull all" actions="1" resourceColor="Black"/>
+  <connection type="Resource Connection" start="59" end="30" label="125" position="-1" color="Blue" thickness="2">
+    <point x="80" y="335"/>
+    <point x="264" y="378"/>
+  </connection>
+  <connection type="Resource Connection" start="30" end="150" label="4" position="0.5" color="Black" thickness="2"/>
+  <node symbol="Pool" x="262" y="170" color="Black" caption="Assimilators" thickness="2" captionPos="0.25" activationMode="passive" pullMode="pull any" actions="1" resourceColor="Black" startingResources="0" maxResources="-1"/>
+  <node symbol="Pool" x="171" y="32" color="Black" caption="Miners" thickness="2" captionPos="0.25" activationMode="interactive" pullMode="pull any" actions="1" resourceColor="Black" startingResources="4" maxResources="-1"/>
+  <connection type="Resource Connection" start="64" end="40" label="200" position="1" color="Green" thickness="2"/>
+  <connection type="Resource Connection" start="59" end="40" label="250" position="0.92" color="Blue" thickness="2">
+    <point x="80" y="360"/>
+  </connection>
+  <connection type="Resource Connection" start="40" end="46" label="" position="0.5" color="Black" thickness="2"/>
+  <connection type="Resource Connection" start="59" end="121" label="150" position="0.99" color="Black" thickness="2">
+    <point x="80" y="360"/>
+  </connection>
+  <node symbol="Converter" x="179" y="544" color="Black" caption="Buy Tech" thickness="2" captionPos="0.25" activationMode="interactive" pullMode="pull all" actions="1" resourceColor="Black"/>
+  <connection type="State Connection" start="47" end="40" label=">0" position="0.26" color="Blue" thickness="2"/>
+  <connection type="State Connection" start="142" end="73" label="-1" position="0.5" color="Black" thickness="2"/>
+  <connection type="Resource Connection" start="31" end="150" label="2" position="0.5" color="Black" thickness="2"/>
+  <connection type="State Connection" start="46" end="33" label="+1" position="0.5" color="Blue" thickness="2"/>
+  <connection type="State Connection" start="46" end="43" label="+1" position="0.5" color="Blue" thickness="2">
+    <point x="400" y="360"/>
+  </connection>
+  <node symbol="Pool" x="252" y="547" color="Black" caption="Tech" thickness="2" captionPos="0.25" activationMode="passive" pullMode="pull any" actions="1" resourceColor="Black" startingResources="0" maxResources="-1"/>
+  <node symbol="Pool" x="239" y="455" color="Black" caption="Forges" thickness="2" captionPos="0.25" activationMode="passive" pullMode="pull any" actions="1" resourceColor="Black" startingResources="0" maxResources="-1"/>
+  <connection type="Resource Connection" start="121" end="47" label="" position="0.5" color="Black" thickness="2"/>
+  <connection type="Resource Connection" start="64" end="30" label="50" position="0.9500000000000001" color="Green" thickness="2">
+    <point x="111" y="435"/>
+    <point x="214" y="440"/>
+    <point x="280" y="400"/>
+  </connection>
+  <connection type="State Connection" start="59" end="97" label="" position="0.7000000000000001" color="Blue" thickness="2">
+    <point x="65" y="760"/>
+  </connection>
+  <connection type="State Connection" start="35" end="73" label="-1" position="-0.93" color="Black" thickness="2">
+    <point x="259" y="5"/>
+  </connection>
+  <connection type="State Connection" start="64" end="97" label="" position="0.5" color="Green" thickness="2">
+    <point x="40" y="880"/>
+  </connection>
+  <connection type="State Connection" start="150" end="141" label="" position="0.5" color="Black" thickness="2"/>
+  <connection type="State Connection" start="73" end="141" label="" position="0.5" color="Purple" thickness="2"/>
+  <node symbol="TextLabel" x="184" y="604" color="Black" caption="Resources"/>
+  <node symbol="TextLabel" x="195" y="871" color="Black" caption="Units"/>
+  <node symbol="Pool" x="46" y="49" color="Blue" caption="Mineral Field" thickness="2" captionPos="0.25" activationMode="automatic" pullMode="push any" actions="1" resourceColor="Blue" startingResources="5000" maxResources="-1"/>
+  <node symbol="Pool" x="938" y="55" color="Blue" caption="Mineral Field 2" thickness="2" captionPos="0.25" activationMode="automatic" pullMode="push any" actions="1" resourceColor="Blue" startingResources="5000" maxResources="-1"/>
+  <node symbol="Pool" x="45" y="144" color="Black" caption="Minerals" thickness="2" captionPos="0.25" activationMode="passive" pullMode="push all" actions="1" resourceColor="Blue" startingResources="50" maxResources="-1"/>
+  <node symbol="Pool" x="937" y="135" color="Black" caption="EMinerals" thickness="2" captionPos="0.25" activationMode="passive" pullMode="push all" actions="1" resourceColor="Blue" startingResources="50" maxResources="-1"/>
+  <node symbol="Converter" x="186" y="241" color="Black" caption="Buy Assimilator" thickness="2" captionPos="0.25" activationMode="interactive" pullMode="pull all" actions="1" resourceColor="Black"/>
+  <node symbol="Pool" x="32" y="270" color="Green" caption="Vespene Geyser" thickness="2" captionPos="0.25" activationMode="automatic" pullMode="push any" actions="1" resourceColor="Green" startingResources="2500" maxResources="-1"/>
+  <node symbol="Pool" x="949" y="333" color="Green" caption="Vespene Geyser 2" thickness="2" captionPos="0.25" activationMode="automatic" pullMode="push any" actions="1" resourceColor="Green" startingResources="2500" maxResources="-1"/>
+  <node symbol="Pool" x="27" y="395" color="Black" caption="Gas" thickness="2" captionPos="0.25" activationMode="passive" pullMode="pull any" actions="1" resourceColor="Green" startingResources="0" maxResources="-1"/>
+  <connection type="Resource Connection" start="60" end="86" label="50" position="0.5" color="Blue" thickness="2"/>
+  <node symbol="Converter" x="862" y="213" color="Black" caption="EBAssim" thickness="2" captionPos="0.25" activationMode="passive" pullMode="pull all" actions="1" resourceColor="Black"/>
+  <node symbol="Converter" x="856" y="287" color="Black" caption="EBGateway" thickness="2" captionPos="0.25" activationMode="passive" pullMode="pull all" actions="1" resourceColor="Black"/>
+  <connection type="Resource Connection" start="60" end="66" label="75" position="0.5" color="Blue" thickness="2"/>
+  <connection type="Resource Connection" start="60" end="67" label="150" position="-0.96" color="Blue" thickness="2">
+    <point x="911" y="230"/>
+  </connection>
+  <node symbol="Converter" x="855" y="363" color="Black" caption="EBPylon" thickness="2" captionPos="0.25" activationMode="passive" pullMode="pull all" actions="1" resourceColor="Black"/>
+  <connection type="Resource Connection" start="63" end="72" label="0" position="0.5" color="Green" thickness="2"/>
+  <node symbol="Pool" x="950" y="424" color="Green" caption="EGas" thickness="2" captionPos="0.25" activationMode="passive" pullMode="push any" actions="1" resourceColor="Green" startingResources="0" maxResources="-1"/>
+  <node symbol="Pool" x="360" y="40" color="Purple" caption="Supply" thickness="2" captionPos="0.25" activationMode="passive" pullMode="push any" actions="1" resourceColor="Black" startingResources="4" maxResources="-1" tokenLimit="1"/>
+  <connection type="Resource Connection" start="70" end="105" label="8" position="0.5" color="Purple" thickness="2"/>
+  <connection type="State Connection" start="105" end="86" label=">0" position="0.5" color="Purple" thickness="2"/>
+  <node symbol="Converter" x="188" y="164" color="Black" caption="Buy Worker" thickness="2" captionPos="0.25" activationMode="interactive" pullMode="pull all" actions="1" resourceColor="Black"/>
+  <connection type="Resource Connection" start="61" end="34" label="+1" position="0.5" color="Black" thickness="2"/>
+  <node symbol="Pool" x="848" y="46" color="Black" caption="EHarvesters" thickness="2" captionPos="0.25" activationMode="interactive" pullMode="pull any" actions="1" resourceColor="Black" startingResources="0" maxResources="-1"/>
+  <connection type="Resource Connection" start="83" end="78" label="" position="0.5" color="Black" thickness="2"/>
+  <connection type="Resource Connection" start="78" end="83" label="" position="0.5" color="Black" thickness="2"/>
+  <connection type="State Connection" start="142" end="8" label="+1" position="-0.97" color="Black" thickness="2">
+    <point x="109" y="133"/>
+    <point x="79" y="235"/>
+  </connection>
+  <connection type="State Connection" start="78" end="71" label="+1" position="0.91" color="Black" thickness="2">
+    <point x="920" y="22"/>
+    <point x="982" y="15"/>
+    <point x="987" y="400"/>
+  </connection>
+  <node symbol="Pool" x="767" y="47" color="Black" caption="EMiners" thickness="2" captionPos="0.25" activationMode="interactive" pullMode="pull any" actions="1" resourceColor="Black" startingResources="0" maxResources="-1"/>
+  <connection type="Resource Connection" start="58" end="60" label="5" position="0.5" color="Blue" thickness="2"/>
+  <connection type="State Connection" start="83" end="84" label="+5" position="0.5" color="Black" thickness="2">
+    <point x="815" y="98"/>
+  </connection>
+  <node symbol="Converter" x="861" y="139" color="Black" caption="EBWorker" thickness="2" captionPos="0.25" activationMode="passive" pullMode="pull all" actions="1" resourceColor="Black"/>
+  <connection type="Resource Connection" start="86" end="83" label="" position="0.5" color="Black" thickness="2">
+    <point x="770" y="139"/>
+  </connection>
+  <connection type="State Connection" start="83" end="105" label="-1" position="0.5" color="Black" thickness="2"/>
+  <connection type="State Connection" start="78" end="105" label="-1" position="-0.5" color="Black" thickness="2">
+    <point x="800" y="20"/>
+    <point x="703" y="9"/>
+  </connection>
+  <node symbol="Pool" x="796" y="211" color="Black" caption="EAssims" thickness="2" captionPos="0.25" activationMode="passive" pullMode="pull any" actions="1" resourceColor="Black" startingResources="0" maxResources="-1"/>
+  <connection type="Resource Connection" start="66" end="90" label="" position="0.5" color="Black" thickness="2"/>
+  <connection type="State Connection" start="90" end="78" label="> 0" position="0.5" color="Black" thickness="2"/>
+  <connection type="Resource Connection" start="67" end="98" label="" position="0.5" color="Red" thickness="2"/>
+  <node symbol="Pool" x="256" y="324" color="Black" caption="Gateways" thickness="2" captionPos="0.25" activationMode="passive" pullMode="pull any" actions="1" resourceColor="Black" startingResources="0" maxResources="-1"/>
+  <connection type="State Connection" start="105" end="113" label="" position="0.5" color="Purple" thickness="2"/>
+  <connection type="State Connection" start="72" end="158" label="" position="0.5" color="Green" thickness="2"/>
+  <node symbol="Chart" x="29" y="624" color="Black" caption="" width="353.34156799316406" height="220" captionPos="5" scaleX="0" scaleY="0"/>
+  <node symbol="Pool" x="775" y="289" color="Black" caption="EGateways" thickness="2" captionPos="0.25" activationMode="passive" pullMode="pull any" actions="1" resourceColor="Black" startingResources="0" maxResources="-1"/>
+  <connection type="State Connection" start="60" end="158" label="" position="0.5" color="Blue" thickness="2"/>
+  <connection type="State Connection" start="98" end="102" label=">0" position="0.5" color="Black" thickness="2"/>
+  <node symbol="Converter" x="852" y="433" color="Black" caption="EBForge" thickness="2" captionPos="0.25" activationMode="passive" pullMode="pull all" actions="1" resourceColor="Black"/>
+  <node symbol="Converter" x="693" y="354" color="Black" caption="EBDragoon" thickness="2" captionPos="0.25" activationMode="passive" pullMode="pull any" actions="1" resourceColor="Black"/>
+  <connection type="State Connection" start="105" end="102" label=">0" position="0.11" color="Purple" thickness="2">
+    <point x="657" y="206"/>
+  </connection>
+  <connection type="State Connection" start="105" end="109" label=">0" position="-0.41000000000000003" color="Purple" thickness="2"/>
+  <node symbol="Pool" x="661" y="57" color="Purple" caption="ESupply" thickness="2" captionPos="0.25" activationMode="passive" pullMode="push any" actions="1" resourceColor="Black" startingResources="4" maxResources="-1" tokenLimit="1"/>
+  <connection type="Resource Connection" start="102" end="149" label="4" position="0.5" color="Black" thickness="2"/>
+  <connection type="State Connection" start="98" end="109" label=">0" position="0.5" color="Black" thickness="2"/>
+  <connection type="Resource Connection" start="109" end="149" label="2" position="0.5" color="Black" thickness="2"/>
+  <node symbol="Converter" x="694" y="222" color="Black" caption="EBZealot" thickness="2" captionPos="0.25" activationMode="passive" pullMode="pull any" actions="1" resourceColor="Black"/>
+  <connection type="Resource Connection" start="60" end="109" label="100" position="-1" color="Blue" thickness="2">
+    <point x="840" y="186"/>
+    <point x="760" y="174"/>
+  </connection>
+  <connection type="Resource Connection" start="60" end="102" label="125" position="-0.97" color="Blue" thickness="2">
+    <point x="906" y="320"/>
+    <point x="760" y="350"/>
+  </connection>
+  <connection type="Resource Connection" start="72" end="102" label="50" position="-0.84" color="Green" thickness="2">
+    <point x="870" y="412"/>
+    <point x="746" y="381"/>
+  </connection>
+  <node symbol="Chart" x="551" y="907" color="Black" caption="" width="369.940673828125" height="200.2974853515625" captionPos="5" scaleX="0" scaleY="0"/>
+  <connection type="State Connection" start="149" end="113" label="" position="0.5" color="Red" thickness="2"/>
+  <connection type="Resource Connection" start="101" end="116" label="" position="0.5" color="Black" thickness="2"/>
+  <node symbol="Pool" x="770" y="435" color="Black" caption="EForges" thickness="2" captionPos="0.25" activationMode="passive" pullMode="pull any" actions="1" resourceColor="Black" startingResources="0" maxResources="-1" tokenLimit="0"/>
+  <node symbol="Pool" x="771" y="517" color="Black" caption="ETech" thickness="2" captionPos="0.25" activationMode="passive" pullMode="push any" actions="1" resourceColor="Black" startingResources="0" maxResources="-1"/>
+  <connection type="State Connection" start="117" end="106" label="+1" position="0.5" color="Black" thickness="2">
+    <point x="626" y="400"/>
+  </connection>
+  <connection type="State Connection" start="117" end="108" label="+1" position="0.5" color="Black" thickness="2">
+    <point x="617" y="400"/>
+    <point x="653" y="291"/>
+  </connection>
+  <connection type="State Connection" start="116" end="122" label=">0" position="0.5" color="Black" thickness="2"/>
+  <node symbol="Converter" x="178" y="466" color="Black" caption="Buy Forge" thickness="2" captionPos="0.25" activationMode="interactive" pullMode="pull all" actions="1" resourceColor="Black"/>
+  <node symbol="Converter" x="851" y="512" color="Black" caption="EBTech" thickness="2" captionPos="0.25" activationMode="passive" pullMode="pull all" actions="1" resourceColor="Black"/>
+  <connection type="Resource Connection" start="60" end="101" label="150" position="-0.9400000000000001" color="Blue" thickness="2">
+    <point x="893" y="440"/>
+  </connection>
+  <connection type="Resource Connection" start="60" end="122" label="250" position="0.9400000000000001" color="Blue" thickness="2">
+    <point x="896" y="520"/>
+  </connection>
+  <connection type="Resource Connection" start="72" end="122" label="200" position="0.76" color="Green" thickness="2">
+    <point x="898" y="546"/>
+  </connection>
+  <connection type="Resource Connection" start="60" end="70" label="100" position="-1" color="Blue" thickness="2">
+    <point x="920" y="280"/>
+  </connection>
+  <connection type="State Connection" start="83" end="128" label="== 0" position="0.5" color="Black" thickness="2">
+    <point x="661" y="17"/>
+  </connection>
+  <node symbol="EndCondition" x="582" y="55" color="Blue" caption="You Win!" thickness="2" captionPos="0.25" activationMode="passive" pullMode="pull any" actions="1"/>
+  <connection type="State Connection" start="35" end="130" label="== 0" position="0.5" color="Black" thickness="2">
+    <point x="375" y="10"/>
+  </connection>
+  <node symbol="EndCondition" x="475" y="57" color="Red" caption="You Lose!" thickness="2" captionPos="0.25" activationMode="passive" pullMode="pull any" actions="1"/>
+  <connection type="Resource Connection" start="122" end="117" label="" position="0.5" color="Black" thickness="2"/>
+  <connection type="State Connection" start="116" end="101" label="== 0" position="-0.5" color="Black" thickness="2">
+    <point x="787" y="360"/>
+  </connection>
+  <connection type="State Connection" start="147" end="148" label="" position="0.5" color="Red" thickness="2"/>
+  <connection type="State Connection" start="135" end="139" label="" position="0.5" color="Red" thickness="2"/>
+  <node symbol="Gate" x="573" y="154" color="Red" caption="EAttack" thickness="2" captionPos="0.25" activationMode="passive" pullMode="pull any" actions="1" gateType="deterministic"/>
+  <node symbol="ArtificialPlayer" x="938" y="541" color="Red" caption="" thickness="2" captionPos="0.25" activationMode="automatic" pullMode="pull any" actions="0" actionsPerTurn="1">if (ESupply &lt;= 0 &amp;&amp; EMinerals &gt;= 100) fire(EBPylon)if (EForces &gt; 5) fireRandom(EAttack)if (Forces &lt; EForces &amp;&amp; EForces &gt; 25) fire(EAttack)if (EAssims &lt;= 0 &amp;&amp; EMiners &gt; 10 &amp;&amp; EMinerals &gt;= 75) fireRandom(EBAssim)if (EForges &lt;= 0 &amp;&amp; EMinerals &gt;= 150) fire(EBForge)if (ETech &lt;= 0 &amp;&amp; EForges &gt;= 0 &amp;&amp; EMinerals &gt;= 250 &amp;&amp; EGas &gt;= 200) fire(EBTech)if (EGateways &lt;= 0 &amp;&amp; EMiners &gt; 10 &amp;&amp; EMinerals &gt;= 250) fire(EBGateway)if (EGateways &gt; 0 &amp;&amp; EMinerals &gt;= 100 &amp;&amp; EGas &gt;= 50 &amp;&amp; random()*100 &lt; 50) fire(EBZealot)else fire(EBDragoon)if (EGateways &gt; 0 &amp;&amp; EMinerals &gt;= 100) fire(EBZealot)if (EMiners &gt; 15 &amp;&amp; EMiners &lt; 25 &amp;&amp; EHarvesters &lt;= 10) fire(EHarvesters)if (EMiners &lt; 50 &amp;&amp; EMinerals &gt;= 50) fire(EBWorker)</node>
+  <connection type="Resource Connection" start="149" end="148" label="1" position="0.96" color="Red" thickness="2"/>
+  <connection type="Resource Connection" start="150" end="139" label="1" position="1" color="Red" thickness="2"/>
+  <node symbol="Drain" x="571" y="232" color="Red" caption="" thickness="2" captionPos="0.25" activationMode="passive" pullMode="pull any" actions="1"/>
+  <connection type="State Connection" start="117" end="122" label="== 0" position="0.5" color="Black" thickness="2">
+    <point x="785" y="587"/>
+    <point x="840" y="588"/>
+  </connection>
+  <node symbol="Chart" x="27" y="891" color="Black" caption="" width="347.843786239624" height="218.77423095703125" captionPos="5" scaleX="0" scaleY="0"/>
+  <node symbol="Pool" x="264" y="36" color="Black" caption="Harvesters" thickness="2" captionPos="0.25" activationMode="interactive" pullMode="pull any" actions="1" resourceColor="Black" startingResources="0" maxResources="-1"/>
+  <connection type="Resource Connection" start="35" end="139" label="1" position="0.5" color="Red" thickness="2">
+    <point x="225" y="112"/>
+    <point x="437" y="130"/>
+    <point x="496" y="131"/>
+  </connection>
+  <connection type="Resource Connection" start="83" end="148" label="1" position="0.5" color="Red" thickness="2">
+    <point x="620" y="168"/>
+    <point x="583" y="120"/>
+    <point x="560" y="120"/>
+  </connection>
+  <connection type="State Connection" start="150" end="143" label="== 0" position="0.5" color="Red" thickness="2"/>
+  <connection type="State Connection" start="149" end="144" label="== 0" position="0.5" color="Red" thickness="2"/>
+  <node symbol="Gate" x="480" y="159" color="Red" caption="Attack" thickness="2" captionPos="0.25" activationMode="interactive" pullMode="pull any" actions="1" gateType="deterministic"/>
+  <node symbol="Drain" x="481" y="240" color="Red" caption="" thickness="2" captionPos="0.25" activationMode="passive" pullMode="pull any" actions="1"/>
+  <node symbol="Pool" x="600" y="307" color="Red" caption="EForces" thickness="2" captionPos="0.25" activationMode="passive" pullMode="pull any" actions="1" resourceColor="Black" startingResources="0" maxResources="-1"/>
+  <node symbol="Pool" x="466" y="314" color="Red" caption="Forces" thickness="2" captionPos="0.25" activationMode="passive" pullMode="pull any" actions="1" resourceColor="Red" startingResources="0" maxResources="-1"/>
+  <connection type="State Connection" start="94" end="147" label=">0" position="0.5" color="Black" thickness="2">
+    <point x="320" y="172"/>
+  </connection>
+  <connection type="State Connection" start="98" end="135" label=">0" position="0.5" color="Black" thickness="2">
+    <point x="712" y="174"/>
+  </connection>
+  <connection type="State Connection" start="94" end="148" label=">0" position="0.5" color="Black" thickness="2">
+    <point x="320" y="152"/>
+    <point x="440" y="147"/>
+  </connection>
+  <connection type="State Connection" start="98" end="139" label=">0" position="0.5" color="Black" thickness="2">
+    <point x="740" y="144"/>
+  </connection>
+  <connection type="Resource Connection" start="150" end="148" label="50%" position="0.5" color="Red" thickness="2"/>
+  <connection type="Resource Connection" start="149" end="139" label="50%" position="0.5" color="Red" thickness="2"/>
+  <node symbol="TextLabel" x="710" y="600" color="Black" caption="Resources"/>
+  <node symbol="Chart" x="551" y="620" color="Black" caption="" width="370" height="251.7703857421875" captionPos="5" scaleX="0" scaleY="0"/>
+  <node symbol="TextLabel" x="757" y="892" color="Black" caption="Units"/>
+  <node symbol="GroupBox" x="513" y="592" color="Black" caption="Enemy Player" width="447.12384033203125" height="528.0413818359375" captionPos="4"/>
+  <node symbol="GroupBox" x="16" y="591" color="Black" caption="Local Player" width="416.1832218170166" height="529.3171997070313" captionPos="4"/>
+</graph>
