@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class CombatManager : MonoBehaviour
 {
-    float totalDamageDoneToBoss = 0.0f;
-    float totalDamageDoneToParty = 0.0f;
+    int totalDamageDoneToBoss = 0;
+    int totalDamageDoneToParty = 0;
 
     private Unit warrior, rogue, mage, druid, priest;
     private Boss boss;
@@ -25,11 +25,14 @@ public class CombatManager : MonoBehaviour
         players = new Unit[]{ warrior, rogue, mage, druid, priest};
         nonTanks = new Unit[] { rogue, mage, druid, priest };
 
+        boss = GameObject.Find("Boss").GetComponent<Boss>();
+
         Error.DebugAssert(ref warrior, "Unable to find instance of warrior character");
         Error.DebugAssert(ref rogue, "Unable to find instance of rogue character");
         Error.DebugAssert(ref mage, "Unable to find instance of mage character");
         Error.DebugAssert(ref druid, "Unable to find instance of druid character");
         Error.DebugAssert(ref priest, "Unable to find instance of priest character");
+        Error.DebugAssert(ref boss, "Unable to find instance of boss character");
     }
 
     void BasicCombat()
@@ -69,7 +72,7 @@ public class CombatManager : MonoBehaviour
             else if (rand <= 0.3) // priest has 10% chance of casting small heal on others
             {
                 // Randomly select non-tank player
-                int index = Random.Range(0, 5); 
+                int index = Random.Range(0, 4); 
 
                 // Then cast small heal on them
                 priestHealer.SmallHeal(nonTanks[index]); 
@@ -77,22 +80,47 @@ public class CombatManager : MonoBehaviour
         }
 
         // The priest regenerates 2 mana per second
-        priest.RegenerateMana(2.0f);
+        priest.RegenerateMana(2);
 }
 
+    // No extra economoical feedback
     void Level1Combat()
     {
         BasicCombat();
     }
 
+    Spell RandomlyChooseHeal()
+    {
+        int rand = Random.Range(0, 2);
+
+        if (rand == 0)
+            return Spells.SpellTable.BigHeal;
+        else
+            return Spells.SpellTable.SmallHeal;
+    }
+
+    // Negative feedback
     void Level2Combat()
     {
         BasicCombat();
+
+        // If the tank's health is below 1500, the healer should will free cast an extra heal.
+        // The heal is either BigHeal or SmallHeal, chosen randomly.
+        if (warrior.health <= 1500)
+        {
+            Healer priestHealer = priest.GetComponent<Healer>();
+            priestHealer.FreeCastSpell(RandomlyChooseHeal(), warrior);
+        }
     }
 
+    // Positive feedback
     void Level3Combat()
     {
         BasicCombat();
+
+        // Apply 1/100th of the total damage done to the party, to the tank each frame.
+        int extraDamage = (int)(totalDamageDoneToParty / 100); 
+        warrior.ReceiveDamage(extraDamage);
     }
 
     bool PlayersAreAlive()
@@ -107,8 +135,10 @@ public class CombatManager : MonoBehaviour
     // A single frame of combat
     void Update()
     {
-        Level1Combat();
-        if (!PlayersAreAlive())
+        if (PlayersAreAlive())
+            Level2Combat();
+
+        else
         {
             // stop scene
             // display back button prompt

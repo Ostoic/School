@@ -4,25 +4,25 @@ using UnityEngine;
 
 public abstract class Unit : MonoBehaviour
 {
-    public float health;
-    public float mana;
+    public int health;
+    public int mana;
 
-    public void ReceiveDamage(float damage)
+    public void ReceiveDamage(int damage)
     {
         this.health -= damage;
     }
 
-    public void RegenerateHealth(float health)
+    public void RegenerateHealth(int health)
     {
         this.health += health;
     }
 
-    public void RegenerateMana(float mana)
+    public void RegenerateMana(int mana)
     {
         this.mana += mana;
     }
 
-    public void UseMana(float mana)
+    public void UseMana(int mana)
     {
         this.mana -= mana;
     }
@@ -47,5 +47,12 @@ public abstract class Unit : MonoBehaviour
             spell.SetCaster(this);
             spell.Trigger(target);
         }
+    }
+
+    public void FreeCastSpell(Spell spell, Unit target)
+    {
+        // Add to our current mana the spell cost
+        this.RegenerateMana(spell.ManaCost);
+        this.CastSpell(spell, target);
     }
 }

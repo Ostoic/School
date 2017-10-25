@@ -4,16 +4,13 @@ using UnityEngine;
 
 public class Healer : Unit
 {
-    private Spells.BigHeal bigHeal;
-    private Spells.SmallHeal smallHeal;
-
     public void BigHeal(Unit target)
     {
-        CastSpell(bigHeal, target);
+        CastSpell(Spells.SpellTable.BigHeal, target);
     }
     public void SmallHeal(Unit target)
     {
-        CastSpell(smallHeal, target);
+        CastSpell(Spells.SpellTable.SmallHeal, target);
     }
 
     public override bool CanAttack()

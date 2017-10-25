@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Spell : MonoBehaviour
+public abstract class Spell
 {
-    public float ManaCost { get; set; }
+    public int ManaCost { get; set; }
 
     protected Unit caster;
     public void SetCaster(Unit caster)

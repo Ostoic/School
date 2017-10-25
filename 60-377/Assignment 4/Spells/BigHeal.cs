@@ -6,12 +6,12 @@ namespace Spells
 {
     public class BigHeal : Spell
     {
-        private float healAmount = 20.0f;
+        private int healAmount = 20;
 
         void Setup()
         {
             // Bigheal costs 8 mana
-            ManaCost = 8.0f;
+            ManaCost = 8;
         }
 
         public override void Trigger(Unit target)

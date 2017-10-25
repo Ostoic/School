@@ -5,18 +5,17 @@ using UnityEngine;
 
 public class DPS : Unit
 {
-    Spells.Attack attack;
-    public float minDps;
-    public float maxDps;
+    public int minDps;
+    public int maxDps;
 
-    protected float lastDamageDealt;
+    protected int lastDamageDealt;
 
-    public float GetLastDamageDealt()
+    public int GetLastDamageDealt()
     {
         return lastDamageDealt;
     }
 
-    public float GetDamage()
+    public int GetDamage()
     {
         lastDamageDealt = UnityEngine.Random.Range(minDps, maxDps);
         return lastDamageDealt;
@@ -24,7 +23,7 @@ public class DPS : Unit
 
     public void AttackTarget(Unit target)
     {
-        CastSpell(attack, target);
+        CastSpell(Spells.SpellTable.Attack, target);
     }
 
     public override bool CanAttack()

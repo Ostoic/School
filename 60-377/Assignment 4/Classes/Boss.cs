@@ -4,19 +4,17 @@ using UnityEngine;
 
 public class Boss : DPS
 {
-    Spells.AoE areaDamage;
+    public int minAoE = 0;
+    public int maxAoE = 0;
 
-    public float minAoE = 0;
-    public float maxAoE = 0;
+    protected int lastAoEDealt;
 
-    protected float lastAoEDealt;
-
-    public float GetLastAoEDealt()
+    public int GetLastAoEDealt()
     {
         return lastAoEDealt;
     }
 
-    public float GetAoEDamage()
+    public int GetAoEDamage()
     {
         lastDamageDealt = UnityEngine.Random.Range(minAoE, maxAoE);
         return lastDamageDealt;
@@ -27,7 +25,7 @@ public class Boss : DPS
         lastAoEDealt = 0;
         foreach (Unit unit in targets)
         {
-            this.CastSpell(areaDamage, unit);
+            this.CastSpell(Spells.SpellTable.AoE, unit);
             lastAoEDealt += lastDamageDealt;
         }
     }
