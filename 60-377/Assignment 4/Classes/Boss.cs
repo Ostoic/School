@@ -9,14 +9,26 @@ public class Boss : DPS
     public float minAoE = 0;
     public float maxAoE = 0;
 
+    protected float lastAoEDealt;
+
+    public float GetLastAoEDealt()
+    {
+        return lastAoEDealt;
+    }
+
     public float GetAoEDamage()
     {
-        return UnityEngine.Random.Range(minAoE, maxAoE);
+        lastDamageDealt = UnityEngine.Random.Range(minAoE, maxAoE);
+        return lastDamageDealt;
     }
 
     public void ApplyAoE(Unit[] targets)
     {
+        lastAoEDealt = 0;
         foreach (Unit unit in targets)
+        {
             this.CastSpell(areaDamage, unit);
+            lastAoEDealt += lastDamageDealt;
+        }
     }
 }

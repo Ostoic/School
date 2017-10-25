@@ -9,9 +9,17 @@ public class DPS : Unit
     public float minDps;
     public float maxDps;
 
+    protected float lastDamageDealt;
+
+    public float GetLastDamageDealt()
+    {
+        return lastDamageDealt;
+    }
+
     public float GetDamage()
     {
-        return UnityEngine.Random.Range(minDps, maxDps);
+        lastDamageDealt = UnityEngine.Random.Range(minDps, maxDps);
+        return lastDamageDealt;
     }
 
     public void AttackTarget(Unit target)

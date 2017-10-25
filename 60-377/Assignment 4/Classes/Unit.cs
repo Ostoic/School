@@ -27,6 +27,16 @@ public abstract class Unit : MonoBehaviour
         this.mana -= mana;
     }
 
+    public bool IsAlive()
+    {
+        return this.health > 0;
+    }
+
+    public bool IsDead()
+    {
+        return !this.IsAlive();
+    }
+
     public abstract bool CanAttack();
 
     public void CastSpell(Spell spell, Unit target)
