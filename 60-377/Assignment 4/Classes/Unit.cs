@@ -31,6 +31,11 @@ public abstract class Unit : MonoBehaviour
 
     public void CastSpell(Spell spell, Unit target)
     {
-        spell.Trigger(target);
+        // Unit must have enough mana to cast spell
+        if (spell.ManaCost <= this.mana)
+        {
+            spell.SetCaster(this);
+            spell.Trigger(target);
+        }
     }
 }

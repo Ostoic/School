@@ -8,11 +8,6 @@ public class DPS : Unit
     Spells.Attack attack;
     public float minDps;
     public float maxDps;
-    void Start()
-    {
-        // Set the caster of our spells
-        attack.SetCaster(this);
-    }
 
     public float GetDamage()
     {
@@ -23,7 +18,6 @@ public class DPS : Unit
     {
         CastSpell(attack, target);
     }
-
 
     public override bool CanAttack()
     {
