@@ -12,7 +12,7 @@ public abstract class Unit : MonoBehaviour
         this.health -= damage;
     }
 
-    public void RegenerateHealth(int health)
+    public void RegenerateHealth(float health)
     {
         this.health += health;
     }

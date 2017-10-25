@@ -6,6 +6,8 @@ namespace Spells
 {
     public class BigHeal : Spell
     {
+        private float healAmount = 20.0f;
+
         void Setup()
         {
             // Bigheal costs 8 mana
@@ -14,6 +16,11 @@ namespace Spells
 
         public override void Trigger(Unit target)
         {
+            // Heal the target
+            target.RegenerateHealth(healAmount);
+
+            // Drain mana from the caster
+            caster.UseMana(this.ManaCost);
         }
     }
 }
