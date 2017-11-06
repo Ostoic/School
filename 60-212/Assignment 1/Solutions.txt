@@ -1,0 +1,63 @@
+Author: Shaun Ostoic
+Student Number: 104014257
+Assignment 1 Solutions:
+
+Problem 1:
+The java implementation of this algorithm is in Problem1.java.
+This is the algorithm for problem 1:
+Let year = 0, interest = 0, balance = 1000, rate = 5%.
+
+Repeat the following steps while year < 3:
+	Add 1 to year (year++).
+	Compute interest = balance * 0.05.
+	Set balance = balance + interest.
+	Print the balance for the current year.
+	
+Problem 2:
+Let a_0 be the initial guess of a_0.
+Let a_1 = 0.5 * (a_0 + a / a_0) be the next guess.
+Let a_(k+1) = 0.5 * (a_k + a / a_k) be the next guess in the sequence {a_0, ..., a_k}.
+Let a_n, a_(n+1) denote two consecutive guesses.
+
+Let t be the tolerance for which |a_(n+1) - a_n| < t allows us to deduce that our current
+guess is "close enough".
+
+Algorithm:
+Decide on a "precision" or threshold that bounds the error of each consecutive guess.
+Start with an initial guess of a_0 = a/2.
+
+Start Guess Loop:
+	Make the next guess being a_(k+1) = 0.5 * (a_k + a / a_k).
+	If |a_(k+1) - a_k| < t (two consecutive guesses are close enough), then output a_(k+1), our current guess.
+	Otherwise, go to the top of the current loop.
+
+Problem 6:
+
+double x = 2.5;
+double y = -1.5;
+int n = 17;
+int m = 18;
+
+a)	x + n * y - (x + n) * y = 2.5 + 17 * (-1.5) - (2.5 + 17) * (-1.5)
+	= 6.25
+	
+b) m / n + m % n = 18 / 17 % 17
+	= 2
+	
+c) n % 2 + m % 2 = 17 % 2 + 18 % 2
+	= 1
+	
+d) (m + n) / 2 = (17 + 18) / 2
+	= 17
+
+e) (m + n) / 2.0 = (17 + 18) / 2.0
+	= 17.5
+	
+f) (int) (0.5 * (m + n)) = (int) (0.5 * (17 + 18))
+	= 17
+	
+g) 1 - (1 - (1 - n)) = 1 - (1 - (1 - 17))
+	= -16
+	
+h) n % 10 + (n - (n % 10)) = 17 % 10 + (17 - (17 % 10))
+	= 17
