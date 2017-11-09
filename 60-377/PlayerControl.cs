@@ -8,23 +8,25 @@ public class PlayerControl : MonoBehaviour
 	public float runSpeed = 10.0f;
 	public float turnSpeed = 120;
 
-	private float jumpInput = 0;
+	private int jumpInput = 0;
 	private float runInput = 0;
+	private float threshold = 0.1f;
 
-	private bool onGround = false;
-
+	private Vector3 gravityDirection = -Vector3.up;
 	private Vector3 velocity;
 	private Vector3 jumpForce;
 	private Rigidbody rigidbdy;
-	private Collider collide;
+	private Collider collider;
+
+	public LayerMask groundLayer;
 
 	private int jumpsAvailable = 2;
 
 
 	public void WorldTeleport(Transform target)
 	{
-		transform.position = target.position;
-		transform.rotation = target.rotation;
+		this.transform.position = target.position;
+		this.transform.rotation = target.rotation;
 	}
 
 	public void ResetVelocity()
@@ -32,85 +34,108 @@ public class PlayerControl : MonoBehaviour
 		rigidbdy.velocity = Vector3.zero;
 	}
 
-	void OnCollisionEnter()
-	{
-		onGround = true;
-	}
-
-	void OnCollisionStay2D()
-	{
-		onGround = true;
-	}
-
-	void OnCollisionExit()
-	{
-		onGround = false;
-	}
-
 	bool OnGround()
 	{
-		return Physics.Raycast(transform.position, -Vector3.up, collide.bounds.extents.y + 0.1f);
+		float playerHeight = this.transform.localScale.y;
+
+		Vector3 vec = this.transform.position;
+		Ray ray = new Ray (vec, this.gravityDirection);
+
+		Debug.DrawRay (ray.origin, ray.direction);
+
+		RaycastHit hit = new RaycastHit ();
+		if (Physics.Raycast (ray, out hit, 2 * playerHeight)) 
+		{
+			if (hit.distance <= playerHeight) 
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	void Start()
 	{
-		if (!(rigidbdy = GetComponent<Rigidbody>()))
+		if (!(this.rigidbdy = GetComponent<Rigidbody>()))
 			Debug.LogError("Unable to find rigidbody for transform");
 
-		if (!(collide = GetComponent<Collider>()))
+		if (!(this.collider = GetComponent<Collider>()))
 			Debug.LogError("Object must have a collider");
 
-		velocity = rigidbdy.velocity;
-		jumpForce = Vector3.up;
+		Physics.gravity *= 2;
+
+		this.velocity = rigidbdy.velocity;
+		this.jumpForce = Vector3.up;
 	}
 
 	void GetJumpInput()
 	{
 		// Get jump input
 		if (Input.GetKeyDown(KeyCode.Space))
-			jumpInput = 1;
+			this.jumpInput = 1;
 		else
-			jumpInput = 0;
+			this.jumpInput = 0;
 	}
 
 	void GetRunInput()
 	{
 		// Get run forward/backward input
-		runInput = Input.GetAxis("Horizontal");
+		this.runInput = Input.GetAxis("Horizontal");
 	}
 
 	void ResetJumps()
 	{
-		jumpsAvailable = 2;
+		this.jumpsAvailable = 2;
 	}
 
 	void Jump() 
 	{
-		rigidbdy.AddForce(jumpForce * jumpSpeed, ForceMode.VelocityChange);
-		jumpsAvailable--;
+		Debug.Log ("Jump boys");
+		this.velocity.y = 0;
+		this.velocity += -gravityDirection * this.jumpSpeed;
+		this.jumpsAvailable--;
+		this.jumpInput = 0;
+	}
+
+	bool isRunning()
+	{
+		return !Mathf.Approximately (runInput, 0);
 	}
 
 	void OnRun()
 	{
-		velocity.x = runInput * runSpeed;
+		if (Mathf.Abs (runInput) < threshold)
+			this.runInput = 0;
+
+		this.velocity.x = runInput * runSpeed;
 	}
 
 	void Update()
 	{
-		GetRunInput();
-		GetJumpInput();
+		this.GetRunInput();
+		this.GetJumpInput();
+
+		if (Input.GetKeyUp (KeyCode.G)) 
+		{
+			Physics.gravity *= -1;
+			this.gravityDirection *= -1;
+		}
 	}
 
 	void FixedUpdate()
 	{
 		// Update velocity
-		velocity = rigidbdy.velocity;
-		OnRun();
+		this.velocity = rigidbdy.velocity;
+		this.OnRun();
 
-		rigidbdy.velocity = velocity;
-		if (onGround && jumpInput > 0)
-		{
-			Jump();
-		}
+		if (this.OnGround())
+			ResetJumps();
+
+		if (this.jumpsAvailable > 0 && this.jumpInput > 0)
+			this.Jump();
+
+		this.velocity.z = 0;
+		this.rigidbdy.velocity = velocity;
 	}
 }
