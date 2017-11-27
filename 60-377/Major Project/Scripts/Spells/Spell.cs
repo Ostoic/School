@@ -22,7 +22,7 @@ public abstract class Spell
         this.caster = caster;
         this.range = range;
     }
-
+     
     public Spell(Unit caster, float range, int manaCost)
         : this(caster, range, manaCost, 0)
     { }

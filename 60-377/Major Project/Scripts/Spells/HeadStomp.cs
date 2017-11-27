@@ -17,8 +17,7 @@ public class HeadStomp : Spell
         // Ensure all conditions are satisfied to cast the spell.
         if (base.Cast(target))
         {
-            // Kill target.
-            target.Damage(target.GetMaxHealth());
+            target.Damage(1);
             return true;
         }
 
