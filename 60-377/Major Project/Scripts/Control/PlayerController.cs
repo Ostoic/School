@@ -2,25 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerControl : MonoBehaviour
-{
-    public float jumpSpeed = 2.0f;
-    public float runSpeed = 10.0f;
-    public float turnSpeed = 120;
+using Classes;
 
-    private int jumpInput = 0;
-    private float runInput = 0;
-    private float threshold = 0.1f;
+public class PlayerController : MonoBehaviour
+{
+    [SerializeField]
+    private float jumpSpeed = 2.0f;
+
+    [SerializeField]
+    private Collider feet;
 
     private Vector3 gravityDirection = -Vector3.up;
     private Vector3 velocity;
-    private Vector3 jumpForce;
     private Rigidbody rigidbdy;
-    private Collider collider;
 
-    public LayerMask groundLayer;
+    private InputController controller;
 
-    private int jumpsAvailable = 2;
+    private Player playerClass;
+
+    [SerializeField]
+    private LayerMask groundLayer;
 
 
     public void WorldTeleport(Transform target)
@@ -31,7 +32,7 @@ public class PlayerControl : MonoBehaviour
 
     public void ResetVelocity()
     {
-        rigidbdy.velocity = Vector3.zero;
+        this.rigidbdy.velocity = Vector3.zero;
     }
 
     bool OnGround()
@@ -52,70 +53,42 @@ public class PlayerControl : MonoBehaviour
             }
         }
 
+        //Physics.OverlapSphere()
+
         return false;
     }
 
     void Start()
     {
-        if (!(this.rigidbdy = GetComponent<Rigidbody>()))
-            Debug.LogError("Unable to find rigidbody for transform");
+        this.rigidbdy = GetComponent<Rigidbody>();
+        this.playerClass = GetComponent<Player>();
+        this.controller = GetComponent<InputController>();
 
-        if (!(this.collider = GetComponent<Collider>()))
-            Debug.LogError("Object must have a collider");
-
+        // XXX Set this in Unity Input manager.
         Physics.gravity *= 2;
 
         this.velocity = rigidbdy.velocity;
-        this.jumpForce = Vector3.up;
-    }
-
-    void GetJumpInput()
-    {
-        // Get jump input
-        if (Input.GetKeyDown(KeyCode.Space))
-            this.jumpInput = 1;
-        else
-            this.jumpInput = 0;
-    }
-
-    void GetRunInput()
-    {
-        // Get run forward/backward input
-        this.runInput = Input.GetAxis("Horizontal");
-    }
-
-    void ResetJumps()
-    {
-        this.jumpsAvailable = 2;
     }
 
     void Jump()
     {
-        Debug.Log("Jump boys");
         this.velocity.y = 0;
         this.velocity += -gravityDirection * this.jumpSpeed;
-        this.jumpsAvailable--;
-        this.jumpInput = 0;
+        this.controller.UseJump();
     }
 
     bool isRunning()
     {
-        return !Mathf.Approximately(runInput, 0);
+        return !Mathf.Approximately(this.controller.GetRunInput(), 0);
     }
 
     void OnRun()
     {
-        if (Mathf.Abs(runInput) < threshold)
-            this.runInput = 0;
-
-        this.velocity.x = runInput * runSpeed;
+        this.velocity.x = this.controller.GetRunInput() * this.playerClass.GetRunSpeed();
     }
 
     void Update()
     {
-        this.GetRunInput();
-        this.GetJumpInput();
-
         if (Input.GetKeyUp(KeyCode.G))
         {
             Physics.gravity *= -1;
@@ -130,9 +103,9 @@ public class PlayerControl : MonoBehaviour
         this.OnRun();
 
         if (this.OnGround())
-            ResetJumps();
+            this.controller.ResetJumps();
 
-        if (this.jumpsAvailable > 0 && this.jumpInput > 0)
+        if (this.controller.CanJump())
             this.Jump();
 
         this.velocity.z = 0;

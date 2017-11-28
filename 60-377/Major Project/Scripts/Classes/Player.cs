@@ -3,11 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : Unit
+namespace Classes
 {
-    void Start ()
+    public class Player : Unit
     {
-        // Add HeadStomp to the spell table.
-        this.AddSpell("HeadStop", new HeadStomp(this));
-	}
+        void Start()
+        {
+            // Add HeadStomp to the spell table.
+            this.AddSpell("HeadStomp", new Spells.HeadStomp(this));
+        }
+    }
 }
