@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,6 +13,7 @@ namespace Spells
         public Teleport(Unit caster) : base(caster)
         {
             this.targetLocation = caster.transform;
+            this.SetCooldown(5.0f);
         }
 
         /// <summary>
@@ -54,18 +55,7 @@ namespace Spells
         public override bool Cast(Unit target)
         {
             if (base.Cast(target))
-            {
-                GameObject go = target.GetComponent<GameObject>();
-
-                if (go)
-                    return WorldTeleport(this.targetLocation);
-
-                else
-                {
-                    Debug.LogError("Unit must have a GameObject component to use Spells.Teleport");
-                    return false;
-                }
-            }
+                return WorldTeleport(this.targetLocation);
 
             return false;
         }
