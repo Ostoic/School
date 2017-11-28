@@ -71,7 +71,7 @@ namespace Control
             this.actions.Add(new InputAction(keycode, action));
         }
         
-        public void UpdateInput()
+        public void InvokeInput()
         {
             this.UpdateJumpInput();
             this.UpdateRunInput();

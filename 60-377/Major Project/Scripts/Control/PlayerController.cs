@@ -75,8 +75,8 @@ namespace Control
             this.fixedQueue = new Queue<System.Action>();
 
             this.controller = new InputController();
-            this.controller.RegisterAction(KeyCode.Space, () => { this.fixedQueue.Enqueue(AttemptJump); });
 
+            this.controller.RegisterAction(KeyCode.Space, () => { this.fixedQueue.Enqueue(AttemptJump); });
             this.controller.RegisterAction(KeyCode.T, TeleportTest);
             this.controller.RegisterAction(KeyCode.G, GravitySwitchTest);
         }
@@ -95,7 +95,7 @@ namespace Control
 
         void Update()
         {
-            this.controller.UpdateInput();
+            this.controller.InvokeInput();
         }
 
         void AttemptJump()
