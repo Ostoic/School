@@ -14,6 +14,9 @@ namespace Control
         [SerializeField]
         private Collider feet;
 
+        [SerializeField]
+        private Collider head;
+        
         private Vector3 gravityDirection = -Vector3.up;
         private Vector3 velocity;
         private Rigidbody rigidbdy;
@@ -38,6 +41,13 @@ namespace Control
         public void ResetVelocity()
         {
             this.rigidbdy.velocity = Vector3.zero;
+        }
+        public static void Swap<T>(ref T left, ref T right)
+        {
+            T temp;
+            temp = left;
+            left = right;
+            right = temp;
         }
 
         bool OnGround()
@@ -86,6 +96,7 @@ namespace Control
 
             if (Input.GetKeyUp(KeyCode.G))
             {
+                Swap(ref feet, ref head);
                 Physics.gravity *= -1;
                 this.gravityDirection *= -1;
             }
@@ -115,6 +126,7 @@ namespace Control
 
         void LateUpdate()
         {
+            // 
             Debug.DrawRay(feet.transform.position, -Vector3.up);
             Collider[] collisions = Physics.OverlapSphere(feet.transform.position, feet.transform.localScale.y / 2, groundLayer);
 
