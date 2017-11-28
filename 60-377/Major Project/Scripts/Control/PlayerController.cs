@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-using Classes;
-
 namespace Control
 {
     public class PlayerController : MonoBehaviour
@@ -23,7 +21,7 @@ namespace Control
 
         private InputController controller;
 
-        private Player playerClass;
+        private Classes.Player player;
 
         delegate void Action();
 
@@ -63,7 +61,7 @@ namespace Control
         void Start()
         {
             this.rigidbdy = GetComponent<Rigidbody>();
-            this.playerClass = GetComponent<Player>();
+            this.player = GetComponent<Classes.Player>();
             this.controller = GetComponent<InputController>();
 
             // XXX Set this in Unity Input manager.
@@ -82,7 +80,7 @@ namespace Control
 
         void OnRun()
         {
-            this.velocity.x = this.controller.GetRunInput() * this.playerClass.GetRunSpeed();
+            this.velocity.x = this.controller.GetRunInput() * this.player.GetRunSpeed();
         }
 
         void Update()
@@ -105,8 +103,8 @@ namespace Control
             {
                 GameObject target = GameObject.Find("Target");
 
-                Spells.Teleport teleport = (Spells.Teleport)this.playerClass.GetSpell("Teleport");
-                teleport.SetLocation(target.transform);
+                Spells.Teleport teleport = (Spells.Teleport)this.player.GetSpell("Teleport");
+                teleport.SetLocation(target.transform.position);
                 teleport.Cast();
             }
         }

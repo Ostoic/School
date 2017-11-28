@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Spells
+namespace Objects
 {
-    public class Buff : MonoBehaviour
+    public class Scoreboard : MonoBehaviour
     {
 
         // Use this for initialization

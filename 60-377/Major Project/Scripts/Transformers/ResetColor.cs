@@ -2,21 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Spells
+namespace Transformers
 {
-    public class Buff : MonoBehaviour
+    public class ResetColor : MonoBehaviour
     {
-
+        Renderer r;
         // Use this for initialization
         void Start()
         {
-
+            r = GetComponent<Renderer>();
         }
 
         // Update is called once per frame
         void Update()
         {
-
+            r.material.color = Color.white;
         }
     }
 }

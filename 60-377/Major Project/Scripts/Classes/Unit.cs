@@ -39,7 +39,7 @@ namespace Classes
         /// <param name="spell">The spell object (value).</param>
         protected void AddSpell(string spellName, Spell spell)
         {
-            if (spellTable == null)
+            if (this.spellTable == null)
                 Debug.LogError("Invalid awake order. Make sure derived classes of Unit are instantiated via Start()");
 
             if (spell != null)
@@ -58,7 +58,7 @@ namespace Classes
             }
 
             if (this.spellTable.ContainsKey(spellName))
-                return spellTable[spellName];
+                return this.spellTable[spellName];
             else
                 return null;
         }
@@ -174,10 +174,10 @@ namespace Classes
         public bool CastSpell(string spellName, Unit target)
         {
             // Check if our spell table contains the requested spell.
-            if (spellTable.ContainsKey(spellName))
+            if (this.spellTable.ContainsKey(spellName))
             {
                 // Retrieve spell object
-                Spell spell = spellTable[spellName];
+                Spell spell = this.spellTable[spellName];
 
                 // Unit must have enough mana to cast spell
                 if (spell.GetManaCost() <= this.mana)

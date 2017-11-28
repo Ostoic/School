@@ -13,7 +13,7 @@ namespace Spells
         private int manaCost;
         private float range;
 
-        private float castEpoch = 0;
+        private float castEpoch = Single.NegativeInfinity;
         private float cooldown;
 
         protected Unit caster;
