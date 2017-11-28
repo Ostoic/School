@@ -16,6 +16,8 @@ namespace Spells
         private float castEpoch = Single.NegativeInfinity;
         private float cooldown;
 
+        private int chargesLeft = -1;
+
         protected Unit caster;
 
         public Spell(Unit caster, float range, int manaCost, float cooldown)

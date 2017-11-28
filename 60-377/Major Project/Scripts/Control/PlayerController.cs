@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace Control
 {
+    [DisallowMultipleComponent]
     [RequireComponent(
         typeof(Rigidbody),          // Requires object to have Rigidbody,
-        typeof(InputController),    // InputController,
         typeof(Classes.Player))]    // and a Classes.Player component.
     public class PlayerController : MonoBehaviour
     {
@@ -27,29 +27,14 @@ namespace Control
 
         private Classes.Player player;
 
-        delegate void Action();
-
-        private Queue<Action> fixedQueue;
+        private Queue<System.Action> fixedQueue;
 
         [SerializeField]
         private LayerMask groundLayer;
 
-        public void WorldTeleport(Transform target)
-        {
-            this.transform.position = target.position;
-            this.transform.rotation = target.rotation;
-        }
-
         public void ResetVelocity()
         {
             this.rigidbdy.velocity = Vector3.zero;
-        }
-        public static void Swap<T>(ref T left, ref T right)
-        {
-            T temp;
-            temp = left;
-            left = right;
-            right = temp;
         }
 
         bool OnGround()
@@ -62,17 +47,38 @@ namespace Control
             return false;
         }
 
+        void TeleportTest()
+        {
+            GameObject target = GameObject.Find("Target");
+
+            Spells.Teleport teleport = (Spells.Teleport)this.player.GetSpell("Teleport");
+            teleport.SetLocation(target.transform.position);
+            teleport.Cast();
+        }
+
+        void GravitySwitchTest()
+        {
+            Physics.gravity *= -1;
+            this.gravityDirection *= -1;
+            Utility.Swap(ref this.feet, ref this.head);
+        }
+
         void Start()
         {
             this.rigidbdy = GetComponent<Rigidbody>();
             this.player = GetComponent<Classes.Player>();
-            this.controller = GetComponent<InputController>();
 
             // XXX Set this in Unity Input manager.
             Physics.gravity *= 2;
 
             this.velocity = rigidbdy.velocity;
-            this.fixedQueue = new Queue<Action>();
+            this.fixedQueue = new Queue<System.Action>();
+
+            this.controller = new InputController();
+            this.controller.RegisterAction(KeyCode.Space, () => { this.fixedQueue.Enqueue(AttemptJump); });
+
+            this.controller.RegisterAction(KeyCode.T, TeleportTest);
+            this.controller.RegisterAction(KeyCode.G, GravitySwitchTest);
         }
 
         void Jump()
@@ -90,27 +96,6 @@ namespace Control
         void Update()
         {
             this.controller.UpdateInput();
-
-            // If the controller requests a jump, enqueue a jump attempt for
-            // FixedUpdate to invoke.
-            if (this.controller.JumpRequested())
-                this.fixedQueue.Enqueue(AttemptJump);
-
-            if (Input.GetKeyUp(KeyCode.G))
-            {
-                Swap(ref feet, ref head);
-                Physics.gravity *= -1;
-                this.gravityDirection *= -1;
-            }
-
-            if (Input.GetKeyDown(KeyCode.T))
-            {
-                GameObject target = GameObject.Find("Target");
-
-                Spells.Teleport teleport = (Spells.Teleport)this.player.GetSpell("Teleport");
-                teleport.SetLocation(target.transform.position);
-                teleport.Cast();
-            }
         }
 
         void AttemptJump()
@@ -122,15 +107,20 @@ namespace Control
                 this.Jump();
         }
 
+        void InvokeFixedActions()
+        {
+            // Get the top action from the queue and invoke it.
+            if (this.fixedQueue.Count > 0)
+                this.fixedQueue.Dequeue()();
+        }
+
         void FixedUpdate()
         {
             // Update velocity
             this.velocity = rigidbdy.velocity;
             this.OnRun();
 
-            // Get the top delegate from the queue and invoke it.
-            if (this.fixedQueue.Count > 0)
-                this.fixedQueue.Dequeue()();
+            this.InvokeFixedActions();
 
             this.rigidbdy.velocity = velocity;
         }

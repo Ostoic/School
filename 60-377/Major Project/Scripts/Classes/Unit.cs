@@ -19,7 +19,7 @@ namespace Classes
         [SerializeField]
         private float runSpeed = 10.0f;
 
-        private ArrayList activeSpells;
+        private List<Spell> activeSpells;
 
         // Contains all possible spells the unit is able to cast.
         private Dictionary<string, Spell> spellTable;
@@ -29,7 +29,7 @@ namespace Classes
             this.spellTable = new Dictionary<string, Spell>();
             this.RestoreHealth(this.maxHealth);
             this.RestoreMana(this.maxMana);
-            this.activeSpells = new ArrayList();
+            this.activeSpells = new List<Spell>();
         }
 
         /// <summary>

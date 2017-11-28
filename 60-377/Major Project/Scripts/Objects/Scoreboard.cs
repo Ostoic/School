@@ -7,6 +7,7 @@ namespace Objects
     public class Scoreboard : MonoBehaviour
     {
         private int itemsCollected = 0;
+        private int currentLevel = 0;
         private int kills = 0;
 
         public int GetKills()
@@ -17,6 +18,16 @@ namespace Objects
         public int GetItemsCollected()
         {
             return this.itemsCollected;
+        }
+
+        public int GetCurrentLevel()
+        {
+            return this.currentLevel;
+        }
+
+        public void AdvanceLevel()
+        {
+            this.currentLevel++;
         }
 
         public void RegisterKill()
