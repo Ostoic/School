@@ -2,7 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Collectible : MonoBehaviour
+namespace Objects
 {
+    [RequireComponent(typeof(Scoreboard))]
+    public class Collectible : MonoBehaviour
+    {
+        private Scoreboard scoreboard;
 
+        private void Start()
+        {
+            scoreboard = GetComponent<Scoreboard>();
+        }
+
+        public virtual void Collect()
+        {
+            this.scoreboard.RegisterItemCollected();
+        }
+    }
 }

@@ -4,6 +4,10 @@ using UnityEngine;
 
 namespace Control
 {
+    [RequireComponent(
+        typeof(Rigidbody),          // Requires object to have Rigidbody,
+        typeof(InputController),    // InputController,
+        typeof(Classes.Player))]    // and a Classes.Player component.
     public class PlayerController : MonoBehaviour
     {
         [SerializeField]

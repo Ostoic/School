@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Transformers
 {
+    [RequireComponent(typeof(Transform))]
     public class Rotator : MonoBehaviour
     {
 

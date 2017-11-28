@@ -6,17 +6,29 @@ namespace Objects
 {
     public class Scoreboard : MonoBehaviour
     {
+        private int itemsCollected = 0;
+        private int kills = 0;
 
-        // Use this for initialization
-        void Start()
+        public int GetKills()
         {
-
+            return this.kills;
         }
 
-        // Update is called once per frame
-        void Update()
+        public int GetItemsCollected()
         {
+            return this.itemsCollected;
+        }
 
+        public void RegisterKill()
+        {
+            Debug.Log("Enemy killed");
+            this.kills++;
+        }
+
+        public void RegisterItemCollected()
+        {
+            Debug.Log("Item collected");
+            this.itemsCollected++;
         }
     }
 }

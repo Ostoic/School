@@ -2,16 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Control {
-    public class InputController : MonoBehaviour {
-
+namespace Control
+{
+    public class InputController : MonoBehaviour
+    {
         private bool jumpInput = false;
         private float runInput = 0;
 
         private float threshold = 0.1f;
         private int jumpsAvailable = 2;
-
-
 
         public void ResetJumps()
         {

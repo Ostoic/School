@@ -6,13 +6,18 @@ using Spells;
 
 namespace Objects
 {
+    [RequireComponent(typeof(Scoreboard))]
     public class Collector : MonoBehaviour
     {
-        void OnTriggerEnter(Collider collide)
+        void OnTriggerEnter(Collider collider)
         {
-            
-            if (collide.tag == "Collectible")
-                Destroy(collide.gameObject);
+            if (collider.tag == "Collectible")
+            {
+                Collectible collectible = collider.GetComponent<Collectible>();
+                collectible.Collect();
+
+                Destroy(collider.gameObject);
+            }
         }
     }
 }

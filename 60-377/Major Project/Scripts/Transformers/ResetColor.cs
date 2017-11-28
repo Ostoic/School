@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Transformers
 {
+    [RequireComponent(typeof(Renderer))]
     public class ResetColor : MonoBehaviour
     {
         Renderer r;
