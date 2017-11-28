@@ -11,6 +11,7 @@ namespace Classes
         {
             // Add HeadStomp to the spell table.
             this.AddSpell("HeadStomp", new Spells.HeadStomp(this));
+            this.AddSpell("Teleport",  new Spells.Teleport(this));
         }
     }
 }

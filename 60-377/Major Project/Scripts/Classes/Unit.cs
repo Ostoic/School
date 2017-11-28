@@ -49,6 +49,20 @@ namespace Classes
                 Debug.LogError("Invalid spell object");
         }
 
+        public Spell GetSpell(string spellName)
+        {
+            if (spellTable == null)
+            {
+                Debug.LogError("Invalid awake order. Make sure derived classes of Unit are instantiated via Start()");
+                return null;
+            }
+
+            if (this.spellTable.ContainsKey(spellName))
+                return spellTable[spellName];
+            else
+                return null;
+        }
+
         public bool HasSpellActive(Spell spell)
         {
             return this.activeSpells.Contains(spell);
@@ -115,7 +129,6 @@ namespace Classes
                 this.mana -= amount;
             else
                 this.mana = 0;
-            ;
         }
 
         /// <summary>

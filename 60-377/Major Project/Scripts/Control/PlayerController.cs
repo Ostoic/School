@@ -100,6 +100,15 @@ namespace Control
                 Physics.gravity *= -1;
                 this.gravityDirection *= -1;
             }
+
+            if (Input.GetKeyDown(KeyCode.T))
+            {
+                GameObject target = GameObject.Find("Target");
+
+                Spells.Teleport teleport = (Spells.Teleport)this.playerClass.GetSpell("Teleport");
+                teleport.SetLocation(target.transform);
+                teleport.Cast();
+            }
         }
 
         void AttemptJump()
@@ -126,7 +135,6 @@ namespace Control
 
         void LateUpdate()
         {
-            // 
             Debug.DrawRay(feet.transform.position, -Vector3.up);
             Collider[] collisions = Physics.OverlapSphere(feet.transform.position, feet.transform.localScale.y / 2, groundLayer);
 

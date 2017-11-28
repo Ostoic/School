@@ -15,13 +15,11 @@ namespace Control {
 
         public void ResetJumps()
         {
-            Debug.Log("Reset");
             this.jumpsAvailable = 2;
         }
 
         public void UseJump()
         {
-            Debug.Log("UseJump");
             this.jumpsAvailable--;
             this.jumpInput = false;
         }
