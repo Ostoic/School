@@ -2,41 +2,67 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InputController : MonoBehaviour {
+namespace Control {
+    public class InputController : MonoBehaviour {
 
-    private float threshold = 0.1f;
-    private int jumpsAvailable = 2;
+        private bool jumpInput = false;
+        private float runInput = 0;
 
-    int GetJumpInput()
-    {
-        // Get jump input
-        if (Input.GetKeyDown(KeyCode.Space))
-            return 1;
-        else
-            return 0;
-    }
-    
-    public void ResetJumps()
-    {
-        this.jumpsAvailable = 2;
-    }
+        private float threshold = 0.1f;
+        private int jumpsAvailable = 2;
 
-    public void UseJump()
-    {
-        this.jumpsAvailable--;
-    }
 
-    public bool CanJump()
-    {
-        return this.jumpsAvailable > 0 && GetJumpInput() != 0;
-    }
 
-    public float GetRunInput()
-    {
-        float runInput = Input.GetAxis("Horizontal");
-        if (Mathf.Abs(runInput) < this.threshold)
-            runInput = 0;
+        public void ResetJumps()
+        {
+            Debug.Log("Reset");
+            this.jumpsAvailable = 2;
+        }
 
-        return runInput;
+        public void UseJump()
+        {
+            Debug.Log("UseJump");
+            this.jumpsAvailable--;
+            this.jumpInput = false;
+        }
+
+        public bool JumpRequested()
+        {
+            return this.jumpInput;
+        }
+
+        public bool JumpAvailable()
+        {
+            return this.jumpsAvailable > 0;
+        }
+
+        public void UpdateJumpInput()
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                this.jumpInput = true;
+            }
+            else
+                this.jumpInput = false;
+        }
+
+        public void UpdateInput()
+        {
+            this.UpdateJumpInput();
+            this.UpdateRunInput();
+        }
+
+        public void UpdateRunInput()
+        {
+            this.runInput = Input.GetAxis("Horizontal");
+        }
+
+        public float GetRunInput()
+        {
+            if (Mathf.Abs(this.runInput) < this.threshold)
+                this.runInput = 0;
+
+            return this.runInput;
+        }
     }
 }

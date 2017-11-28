@@ -15,6 +15,11 @@ namespace Spells
             this.targetLocation = caster.transform;
         }
 
+        /// <summary>
+        /// Set transform position to the target transform.
+        /// </summary>
+        /// <param name="target"></param>
+        /// <returns>True if the teleport was successful, false otherwise.</returns>
         private bool WorldTeleport(Transform target)
         {
             Transform casterTransform = this.caster.GetComponent<Transform>();
