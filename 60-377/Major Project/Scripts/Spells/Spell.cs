@@ -1,7 +1,7 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System;
+
 using UnityEngine;
 
 using Classes;
@@ -11,9 +11,9 @@ namespace Spells
     public abstract class Spell
     {
         private int manaCost;
-        private float range = 5.0f;
+        private float range;
 
-        private float castEpoch;
+        private float castEpoch = 0;
         private float cooldown;
 
         protected Unit caster;
@@ -26,7 +26,7 @@ namespace Spells
             this.range = range;
         }
         public Spell(Unit caster, float range, int manaCost)
-            : this(caster, range, manaCost, 0)
+            : this(caster, range, manaCost, 1.0f)
         { }
 
         public Spell(Unit caster, float range)
@@ -34,7 +34,7 @@ namespace Spells
         { }
 
         public Spell(Unit caster)
-            : this(caster, 1.0f)
+            : this(caster, 5.0f)
         { }
 
         public int GetManaCost()
@@ -53,7 +53,16 @@ namespace Spells
         /// <returns>True if the spell is on cooldown, false otherwise.</returns>
         public virtual bool IsOnCooldown()
         {
-            return (Time.time - this.castEpoch) > this.cooldown;
+            return (Time.time - this.castEpoch) <= this.cooldown;
+        }
+
+        /// <summary>
+        /// Set the spell's global cooldown.
+        /// </summary>
+        /// <param name="cooldown"></param>
+        protected void SetCooldown(float cooldown)
+        {
+            this.cooldown = cooldown;
         }
 
         /// <summary>
@@ -78,7 +87,7 @@ namespace Spells
         ///  Cast a spell on the given target.
         /// </summary>
         /// <param name="target">The unit to cast the spell on.</param>
-        /// <returns>false if the spell is on cooldown, false otherwise.</returns>
+        /// <returns>false if the spell is on cooldown, true otherwise.</returns>
         public virtual bool Cast(Unit target)
         {
             if (!this.IsOnCooldown())
@@ -88,6 +97,15 @@ namespace Spells
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Self-cast a spell
+        /// </summary>
+        /// <returns>false if the spell is on cooldown, true otherwise.</returns>
+        public virtual bool Cast()
+        {
+            return this.Cast(this.caster);
         }
     }
 
