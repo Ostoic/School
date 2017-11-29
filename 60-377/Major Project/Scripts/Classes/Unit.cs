@@ -16,9 +16,6 @@ namespace Classes
         private int maxMana = 0;
         private int mana = 0;
 
-        [SerializeField]
-        private float runSpeed = 10.0f;
-
         private List<Spell> activeSpells;
 
         // Contains all possible spells the unit is able to cast.
@@ -66,15 +63,6 @@ namespace Classes
         public bool HasSpellActive(Spell spell)
         {
             return this.activeSpells.Contains(spell);
-        }
-
-        /// <summary>
-        /// Get the unit's run speed.
-        /// </summary>
-        /// <returns>Float value containing the unit's run speed.</returns>
-        public float GetRunSpeed()
-        {
-            return this.runSpeed;
         }
 
         /// <summary>

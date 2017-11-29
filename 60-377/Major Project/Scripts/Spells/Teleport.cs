@@ -18,6 +18,7 @@ namespace Spells
         {
             this.targetLocation = caster.transform.position;
             this.SetCooldown(5.0f);
+            this.SetCharges(2);
         }
 
         /// <summary>

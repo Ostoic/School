@@ -10,15 +10,13 @@ namespace Spells
 {
     public abstract class Spell
     {
-        private enum ChargeType { Infinite = -1, Finite = 0 };
-
         private int manaCost;
         private float range;
 
         private float castEpoch = Single.NegativeInfinity;
         private float cooldown;
 
-        private int chargesLeft = -1;
+        private SpellCharges chargesLeft;
 
         protected Unit caster;
 
@@ -36,7 +34,7 @@ namespace Spells
         { }
 
         public Spell(Unit caster, float range, int manaCost)
-            : this(caster, range, manaCost, (int)ChargeType.Infinite)
+            : this(caster, range, manaCost, SpellCharges.Infinity)
         { }
 
         public Spell(Unit caster, float range)
@@ -76,13 +74,24 @@ namespace Spells
         }
 
         /// <summary>
+        /// Get the number of charges left.
+        /// </summary>
+        /// <returns></returns>
+        public int GetChargesLeft()
+        {
+            return this.chargesLeft;
+        }
+
+        /// <summary>
         /// Use a spell's charge and decrease the number of charges it has left.
         /// </summary>
         private void UseCharge()
         {
             // If the spell has a finite number of charges, decrease its number of charges left.
-            if (this.chargesLeft != (int)ChargeType.Infinite) 
+            if (this.chargesLeft.IsFinite())
                 this.chargesLeft--;
+
+            Debug.Log(this.ToString() + " charges left: " + this.chargesLeft);
         }
 
         /// <summary>

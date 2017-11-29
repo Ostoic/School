@@ -7,45 +7,16 @@ namespace Control
     [DisallowMultipleComponent]
     [RequireComponent(
         typeof(Rigidbody),          // Requires object to have Rigidbody,
+        typeof(Objects.Biped),      // and a Classes.Player component.
         typeof(Classes.Player))]    // and a Classes.Player component.
     public class PlayerController : MonoBehaviour
     {
-        [SerializeField]
-        private float jumpSpeed = 2.0f;
-
-        [SerializeField]
-        private Collider feet;
-
-        [SerializeField]
-        private Collider head;
-        
-        private Vector3 gravityDirection = -Vector3.up;
-        private Vector3 velocity;
-        private Rigidbody rigidbdy;
-
         private InputController controller;
 
+        private Objects.Biped biped;
         private Classes.Player player;
 
         private Queue<System.Action> fixedQueue;
-
-        [SerializeField]
-        private LayerMask groundLayer;
-
-        public void ResetVelocity()
-        {
-            this.rigidbdy.velocity = Vector3.zero;
-        }
-
-        bool OnGround()
-        {
-            Collider[] collisions = Physics.OverlapSphere(feet.transform.position, feet.transform.localScale.y / 2, groundLayer);
-
-            if (collisions.Length > 0)
-                return true;
-
-            return false;
-        }
 
         void TeleportTest()
         {
@@ -58,39 +29,24 @@ namespace Control
 
         void GravitySwitchTest()
         {
-            Physics.gravity *= -1;
-            this.gravityDirection *= -1;
-            Utility.Swap(ref this.feet, ref this.head);
+            Physics.gravity *= -1; 
+            this.biped.ReverseGravity();
         }
 
         void Start()
         {
-            this.rigidbdy = GetComponent<Rigidbody>();
+            this.biped = GetComponent<Objects.Biped>();
             this.player = GetComponent<Classes.Player>();
 
             // XXX Set this in Unity Input manager.
             Physics.gravity *= 2;
 
-            this.velocity = rigidbdy.velocity;
             this.fixedQueue = new Queue<System.Action>();
-
             this.controller = new InputController();
 
             this.controller.RegisterAction(KeyCode.Space, () => { this.fixedQueue.Enqueue(AttemptJump); });
             this.controller.RegisterAction(KeyCode.T, TeleportTest);
             this.controller.RegisterAction(KeyCode.G, GravitySwitchTest);
-        }
-
-        void Jump()
-        {
-            this.velocity.y = 0;
-            this.velocity += -gravityDirection * this.jumpSpeed;
-            this.controller.UseJump();
-        }
-
-        void OnRun()
-        {
-            this.velocity.x = this.controller.GetRunInput() * this.player.GetRunSpeed();
         }
 
         void Update()
@@ -100,11 +56,14 @@ namespace Control
 
         void AttemptJump()
         {
-            if (this.OnGround())
+            if (this.biped.OnGround())
                 this.controller.ResetJumps();
 
             if (this.controller.JumpAvailable())
-                this.Jump();
+            {
+                this.biped.Jump();
+                this.controller.UseJump();
+            }
         }
 
         void InvokeFixedActions()
@@ -117,18 +76,16 @@ namespace Control
         void FixedUpdate()
         {
             // Update velocity
-            this.velocity = rigidbdy.velocity;
-            this.OnRun();
+            this.biped.Run(this.controller.GetRunInput());
 
             this.InvokeFixedActions();
 
-            this.rigidbdy.velocity = velocity;
+            this.biped.UpdateVelocity();
         }
 
         void LateUpdate()
         {
-            Debug.DrawRay(feet.transform.position, -Vector3.up);
-            Collider[] collisions = Physics.OverlapSphere(feet.transform.position, feet.transform.localScale.y / 2, groundLayer);
+            Collider[] collisions = this.biped.GetOverlapColliders();
 
             if (collisions.Length > 0)
             {
