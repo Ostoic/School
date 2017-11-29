@@ -8,7 +8,7 @@ namespace Spells
 {
     public class InvertGravity : Spell
     {
-        public InvertGravity(Unit caster) : base(caster)
+        public InvertGravity(Player caster) : base(caster)
         {
             this.SetCooldown(10);
             this.SetCharges(2);
