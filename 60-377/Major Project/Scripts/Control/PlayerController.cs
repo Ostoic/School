@@ -29,8 +29,7 @@ namespace Control
 
         void GravitySwitchTest()
         {
-            Physics.gravity *= -1; 
-            this.biped.ReverseGravity();
+            this.player.CastSpell("InvertGravity");
         }
 
         void Start()

@@ -10,9 +10,20 @@ namespace Spells
     {
         public InvertGravity(Unit caster) : base(caster)
         {
-
+            this.SetCooldown(10);
+            this.SetCharges(2);
         }
 
+        public override bool Cast(Unit target)
+        {
+            if (base.Cast(target))
+            {
+                Physics.gravity *= -1;
+                this.caster.GetComponent<Objects.Biped>().ReverseGravity();
+                return true;
+            }
 
+            return false;
+        }
     }
 }
