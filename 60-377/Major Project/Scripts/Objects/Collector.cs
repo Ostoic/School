@@ -7,7 +7,6 @@ using Spells;
 namespace Objects
 {
     [DisallowMultipleComponent]
-    [RequireComponent(typeof(Scoreboard))]
     public class Collector : MonoBehaviour
     {
         void OnTriggerEnter(Collider collider)

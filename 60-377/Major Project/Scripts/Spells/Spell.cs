@@ -5,6 +5,7 @@ using System;
 using UnityEngine;
 
 using Classes;
+using Spells.Internal;
 
 namespace Spells
 {
@@ -59,7 +60,7 @@ namespace Spells
         /// Set the number of charges the spell can use.
         /// </summary>
         /// <param name="charges">the number of charges.</param>
-        protected void SetCharges(int charges)
+        protected void SetCharges(SpellCharges charges)
         {
             this.chargesLeft = charges;
         }
@@ -113,6 +114,18 @@ namespace Spells
         }
 
         /// <summary>
+        /// Get the number of seconds left until the cooldown is done.
+        /// </summary>
+        /// <returns>The time in seconds.</returns>
+        public float GetCooldownLeft()
+        {
+            if (!this.IsOnCooldown())
+                return 0;
+            else
+                return this.cooldown - (Time.time - this.castEpoch);
+        }
+
+        /// <summary>
         /// Set the spell's cooldown time.
         /// </summary>
         /// <param name="cooldown">The time in seconds.</param>
@@ -160,7 +173,7 @@ namespace Spells
         /// Self-cast a spell
         /// </summary>
         /// <returns>false if the spell is on cooldown, true otherwise.</returns>
-        public virtual bool Cast()
+        public bool Cast()
         {
             return this.Cast(this.caster);
         }

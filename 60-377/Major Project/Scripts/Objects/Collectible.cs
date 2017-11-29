@@ -4,14 +4,20 @@ using UnityEngine;
 
 namespace Objects
 {
-    [RequireComponent(typeof(Scoreboard))]
     public class Collectible : MonoBehaviour
     {
         private Scoreboard scoreboard;
-
         private void Start()
         {
-            scoreboard = GetComponent<Scoreboard>();
+            Debug.Log("Collectible Start");
+            GameObject go = GameObject.FindGameObjectWithTag("Player");
+            if (go == null)
+            {
+                Debug.LogError("Player GameObject not found!");
+                return;
+            }
+
+            this.scoreboard = go.GetComponent<Scoreboard>();
         }
 
         public virtual void Collect()

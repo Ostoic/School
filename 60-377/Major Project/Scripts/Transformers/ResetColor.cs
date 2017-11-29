@@ -11,13 +11,13 @@ namespace Transformers
         // Use this for initialization
         void Start()
         {
-            r = GetComponent<Renderer>();
+            this.r = GetComponent<Renderer>();
         }
 
         // Update is called once per frame
         void Update()
         {
-            r.material.color = Color.white;
+            this.r.material.color = Color.white;
         }
     }
 }
