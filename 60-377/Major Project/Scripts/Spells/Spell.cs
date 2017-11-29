@@ -104,9 +104,18 @@ namespace Spells
         }
 
         /// <summary>
-        /// Set the spell's global cooldown.
+        /// Get how long the spell has been on cool down.
         /// </summary>
-        /// <param name="cooldown"></param>
+        /// <returns>The time elapsed in seconds.</returns>
+        public float GetTimeOnCooldown()
+        {
+            return Time.time - this.castEpoch;
+        }
+
+        /// <summary>
+        /// Set the spell's cooldown time.
+        /// </summary>
+        /// <param name="cooldown">The time in seconds.</param>
         protected void SetCooldown(float cooldown)
         {
             this.cooldown = cooldown;
@@ -115,7 +124,7 @@ namespace Spells
         /// <summary>
         /// Get how long the spell's cooldown lasts.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The time in seconds the spell's cd lasts.</returns>
         public float GetCooldown()
         {
             return this.cooldown;
