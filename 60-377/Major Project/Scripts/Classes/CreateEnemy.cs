@@ -9,7 +9,7 @@ namespace Classes
         // Use this for initialization
         void Start()
         {
-			EnemyNum=Random.Range(1,5);
+			EnemyNum=Random.Range(1,6);
 			if (EnemyNum == 1) {
 				Instantiate (Resources.Load ("EnemyOne"), new Vector3 (transform.position.x, transform.position.y + 1, 0), Quaternion.identity);
 		}

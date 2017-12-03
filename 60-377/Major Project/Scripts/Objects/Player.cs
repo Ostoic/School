@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+
+using System.Diagnostics;
 
 namespace Objects
 {
-    [RequireComponent(typeof(Rigidbody))]
-    public class Biped : MonoBehaviour
+    [RequireComponent(typeof(Rigidbody), typeof(Transform), typeof(Classes.Player))]
+    public class Player : MonoBehaviour
     {
         [SerializeField]
         private Collider feet;
@@ -23,11 +26,18 @@ namespace Objects
         [SerializeField]
         private float runSpeed = 10.0f;
 
+        [SerializeField]
+        private MenuUI.PlayerUI playerUI;
+
         private int jumpsAvailable = 2;
 
         private Rigidbody rb;
         private Vector3 newVelocity;
-        private Vector3 gravityDirection = -Vector3.up;
+
+        public Classes.Player GetClass()
+        {
+            return this.GetComponent<Classes.Player>(); ;
+        }
 
         private void Start()
         {
@@ -45,26 +55,25 @@ namespace Objects
             this.jumpsAvailable--;
         }
 
+        public void SetColor(Color color)
+        {
+            this.gameObject.GetComponent<Renderer>().material.color = color;
+        }
+
         public bool IsJumpReady()
         {
             return this.jumpsAvailable > 0;
         }
 
-        private void SwapFeet()
+        public void SwapFeet()
         {
             Utility.Swap(ref this.feet, ref this.head);
-        }
-
-        public void ReverseGravity()
-        {
-            this.SwapFeet();
-            this.gravityDirection *= -1;
         }
 
         public void Jump()
         {
             this.newVelocity.y = 0;
-            this.newVelocity += -gravityDirection * this.jumpSpeed;
+            this.newVelocity += -Gravity.GetGravityDirection() * this.jumpSpeed;
         }
 
         public void Run(float runInput)
@@ -80,7 +89,7 @@ namespace Objects
 
         public bool OnGround()
         {
-            Collider[] collisions = Physics.OverlapSphere(feet.transform.position, feet.transform.localScale.y / 2, groundLayer);
+            Collider[] collisions = this.GetOverlapColliders();
 
             if (collisions.Length > 0)
                 return true;
@@ -93,39 +102,9 @@ namespace Objects
             return Physics.OverlapSphere(feet.transform.position, feet.transform.localScale.y / 2, groundLayer);
         }
 
-        void ColorColliders()
+        void OnDestroy()
         {
-            Collider[] collisions = this.GetOverlapColliders();
-
-            if (collisions.Length > 0)
-            {
-				foreach (Collider collider in collisions) 
-				{
-					if (collider.GetComponent<Collider> ().CompareTag ("Exit")  && this.CompareTag("Player"))
-						SceneManager.LoadScene ("TitleScreen");
-
-					if (collider.GetComponent<Collider> ().CompareTag ("End")  && this.CompareTag("Player"))
-						SceneManager.LoadScene ("MainMenu");
-
-					if (collider.GetComponent<Collider> ().CompareTag ("Level1"))
-						SceneManager.LoadScene ("Level1");
-
-					if (collider.GetComponent<Collider> ().CompareTag ("Level2"))
-						SceneManager.LoadScene ("Level2");
-
-					if (collider.GetComponent<Collider> ().CompareTag ("Level3"))
-						SceneManager.LoadScene ("Level3");
-
-					if (collider.GetComponent<Collider> ().CompareTag ("About"))
-						SceneManager.LoadScene ("About");
-				}
-				
-            }
-        }
-
-        void LateUpdate()
-        {
-            ColorColliders();
+            this.playerUI.PlayerDied();
         }
     }
 }

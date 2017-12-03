@@ -17,16 +17,16 @@ namespace Spells
             this.SetCharges(5);
         }
 
-        private void ResetBipedJumps()
+        private void ResetJumps()
         {
-            Objects.Biped biped = this.caster.GetComponent<Objects.Biped>();
+            Objects.Player player = this.caster.GetComponent<Objects.Player>();
             Rigidbody rb = this.caster.GetComponent<Rigidbody>();
 
             if (rb != null)
                 rb.velocity = Vector3.zero;
 
-            if (biped != null)
-                biped.ResetJumps();
+            if (player != null)
+                player.ResetJumps();
         }
 
         /// <summary>
@@ -41,6 +41,7 @@ namespace Spells
         public override void Uncast()
         {
             this.SetCharges(5);
+            this.caster.gameObject.GetComponent<Objects.Player>().SetColor(Color.white);
         }
 
         public override bool Cast(Unit target)
@@ -52,7 +53,8 @@ namespace Spells
                 teleport.SetLocation(this.targetLocation);
                 teleport.Cast();
 
-                this.ResetBipedJumps();
+                this.ResetJumps();
+                this.caster.gameObject.GetComponent<Objects.Player>().SetColor(Color.blue);
 
                 NonPlayer.Invulnerability invulnerability = (NonPlayer.Invulnerability)this.caster.GetSpell("NP_Invulnerability");
                 invulnerability.SetDuration(2);

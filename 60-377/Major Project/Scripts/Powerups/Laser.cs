@@ -8,9 +8,12 @@ namespace Powerups
     {
         public override void Collect(Classes.Player player)
         {
-            Debug.Log("Laser powerup");
-            // Give player the ability to cast Blink.
-            //player.CastSpell("Laser");
+            // Give player the ability to cast Laser.
+            player.ReceiveBuff((Spells.Buff)player.GetSpell("Laser"));
+            player.CastSpell("Laser");
+
+            this.GetUI(player).SetSpellText("Laser", 30);
+            GameObject.Instantiate(Resources.Load("Effects\\RedEffect"));
         }
     }
 }

@@ -49,24 +49,24 @@ public class Level1Creation : MonoBehaviour {
 
 		if (Random.Range (1, 10) == 2) {
 			newSize = platformSize();
-			nextHorizontalPlatform=(GameObject)	Instantiate (Resources.Load ("horizontalPlatform"), new Vector3 (nextx + (newSize), nexty, 0), Quaternion.identity);
+			nextHorizontalPlatform=(GameObject)	Instantiate (Resources.Load ("LevelDesign\\horizontalPlatform"), new Vector3 (nextx + (newSize), nexty, 0), Quaternion.identity);
 			nextHorizontalPlatform.AddComponent<level1OutOfBounds> ();
 			nextHorizontalPlatform.transform.localScale = new Vector3 (newSize, 1, 10);
 		//	Instantiate (Resources.Load ("horizontalPlatform"), new Vector3 (nextx, nexty, 0), Quaternion.identity);
 		} else if (Random.Range (1, 10) == 3) {
 			newSize = platformSize();
-			nextVerticalPlatform=(GameObject)	Instantiate (Resources.Load ("verticalPlatform"), new Vector3 (nextx + (newSize), nexty, 0), Quaternion.identity);
+			nextVerticalPlatform=(GameObject)	Instantiate (Resources.Load ("LevelDesign\\verticalPlatform"), new Vector3 (nextx + (newSize), nexty, 0), Quaternion.identity);
 			nextVerticalPlatform.AddComponent<level1OutOfBounds> ();
 			nextVerticalPlatform.transform.localScale = new Vector3 (newSize, 1, 10);
 			//Instantiate (Resources.Load ("VerticalPlatform"), new Vector3 (nextx, nexty, 0), Quaternion.identity);
 		} else if (Random.Range (1, 5) == 4) {		
 			newSize = platformSize();
-			nextEnemyPlatform=(GameObject)Instantiate (Resources.Load ("EnemySpawnPlatform"), new Vector3 (nextx, nexty, 0), Quaternion.identity);
+			nextEnemyPlatform=(GameObject)Instantiate (Resources.Load ("LevelDesign\\EnemySpawnPlatform"), new Vector3 (nextx, nexty, 0), Quaternion.identity);
 			nextEnemyPlatform.AddComponent<level1OutOfBounds> ();
 			nextEnemyPlatform.transform.localScale = new Vector3 (platformSize(), 1, 10);
 		} else {
 			newSize = platformSize();
-			nextNormalPlatform=(GameObject)	Instantiate (Resources.Load ("Plat"), new Vector3(nextx+newSize,nexty,0), Quaternion.identity);
+			nextNormalPlatform=(GameObject)	Instantiate (Resources.Load ("LevelDesign\\Plat"), new Vector3(nextx+newSize,nexty,0), Quaternion.identity);
 			nextNormalPlatform.AddComponent<level1OutOfBounds> ();
 			nextNormalPlatform.transform.localScale = new Vector3 (platformSize(), 1, 10);
 		}
@@ -85,7 +85,7 @@ public class Level1Creation : MonoBehaviour {
 		zoneCount++;
 
 		if (zoneCount == 10) {
-			Instantiate(Resources.Load("levelComplete"), new Vector3(105, 1, 0), Quaternion.identity);
+			Instantiate(Resources.Load("LevelDesign\\levelComplete"), new Vector3(105, 1, 0), Quaternion.identity);
 		}
 
 	}
@@ -94,7 +94,7 @@ public class Level1Creation : MonoBehaviour {
 	    endPt = 10;
 
 		Play=(GameObject.FindGameObjectWithTag("Player"));
-		floor=(GameObject) Instantiate(Resources.Load("Floor"),new Vector3(-5,0,0), Quaternion.identity);
+		floor=(GameObject) Instantiate(Resources.Load("LevelDesign\\Floor"),new Vector3(-5,0,0), Quaternion.identity);
 
 		nextPtx = spawnPt;
 		nextPty = Random.Range (1, 3);

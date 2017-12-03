@@ -8,9 +8,11 @@ namespace Powerups
     {
         public override void Collect(Classes.Player player)
         {
-            Debug.Log("Health powerup");
             // Give player the ability to cast Blink.
+            player.ReceiveBuff((Spells.Buff)player.GetSpell("Health"));
             player.CastSpell("Health");
+            this.GetUI(player).SetSpellText("Health Shield", 1);
+            GameObject.Instantiate(Resources.Load("Effects\\GreenEffect"));
         }
     }
 }

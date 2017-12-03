@@ -11,8 +11,8 @@ namespace Classes
     {
         [SerializeField]
         private int maxHealth = 1;
-		[SerializeField]
-        private int health = 1;
+
+        private int health ;
 
         private bool invulnerable = false;
 
@@ -73,7 +73,15 @@ namespace Classes
             if (this.spellTable.ContainsKey(spellName))
                 return this.spellTable[spellName];
             else
+            {
+                Debug.LogError("Unit does not know this spell!");
                 return null;
+            }
+        }
+
+        public List<Buff> GetActiveBuffs()
+        {
+            return this.activeBuffs;
         }
 
         public Buff GetBuff(string buffName)
@@ -272,6 +280,11 @@ namespace Classes
         {
             this.UpdateBuffs();
             this.UpdateHealth();
+        }
+
+        protected virtual void OnDestroy()
+        {
+
         }
     }
 }

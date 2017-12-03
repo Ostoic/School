@@ -18,6 +18,7 @@ namespace Spells
         {
             this.targetBody = caster.GetComponent<Rigidbody>();
             this.SetCooldown(0);
+            this.SetCharges(Internal.SpellCharges.Infinity);
         }
 
         private bool ApplyForce(Rigidbody target)
@@ -41,13 +42,12 @@ namespace Spells
         /// </summary>
         public void SetBody(Rigidbody targetBody)
         {
-           // Debug.Log("Set RigidBody");
             this.targetBody = targetBody;
         }
 
         public override bool Cast(Unit target)
         {
-			if (base.Cast (target))
+			if (base.Cast(target))
             {
                 if (ApplyForce(this.targetBody))
                 {
@@ -58,12 +58,5 @@ namespace Spells
 
 			return false;
 		}
-
-        // Update is called once per frame
-        void Update()
-        {
-			//Timer += Time.deltaTime;
-
-        }
     }
 }

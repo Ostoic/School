@@ -21,7 +21,7 @@ namespace Objects
                     return;
                 }
 
-                collectible.Collect(this.GetComponent<Player>());
+                collectible.Collect(this.GetComponent<Classes.Player>());
 
                 Destroy(collider.gameObject);
             }

@@ -6,13 +6,15 @@ namespace Classes
 {
     public class Fireball : Unit
     {
+        private float explosionRadius = 6;
+
         Vector3 target;
         GameObject Player;
         Classes.Player playerClass;
 
         Rigidbody playerbody;
         // Use this for initialization
-        void Start()
+        private void Start()
         {
             Player = (GameObject.FindGameObjectWithTag("Player"));
             playerClass = Player.GetComponent<Player>();
@@ -23,12 +25,25 @@ namespace Classes
             //Player =(GameObject) GameObject.FindGameObjectsWithTag ("Player");
             this.transform.LookAt(Player.transform.position);
         }
-
-        void Hit()
+        
+        /// <summary>
+        /// Upon collision
+        /// </summary>
+        private void OnCollisionEnter()
         {
-            this.CastSpell("Explosion", playerClass);
-            //playerbody.AddExplosionForce(1000, transform.position, 3, 3.0f);
-            //playerClass.Damage(1);
+            // Find all the objects we collided with.
+            Collider[] collisions = Physics.OverlapSphere(this.transform.position, explosionRadius);
+
+            // For each collision,
+            foreach (Collider collider in collisions)
+            {
+                // If we hit a unit, cast the explode spell on it.
+                Unit unit = collider.GetComponent<Unit>();
+
+                if (unit) this.CastSpell("Explosion", unit);
+            }
+
+            // Afterwards, die.
             Destroy(this.gameObject);
         }
 
@@ -36,13 +51,12 @@ namespace Classes
         protected override void Update()
         {
             transform.position += transform.forward * (10 * Time.deltaTime);
-            if (Vector3.Distance(transform.position, Player.transform.position) < 2)
-            {
-                Hit();
-            }
+        }
 
-            if (transform.position.y < 0) Destroy(this.gameObject);
-
+        protected override void OnDestroy()
+        {
+            base.OnDestroy();
+            GameObject.Instantiate(Resources.Load("Effects\\LargeRedEffect"), this.transform.position, Quaternion.identity);
         }
     }
 }

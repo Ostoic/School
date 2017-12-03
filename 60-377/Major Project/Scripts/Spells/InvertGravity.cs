@@ -11,20 +11,22 @@ namespace Spells
         public InvertGravity(Player caster) : base(caster)
         {
             this.SetCooldown(0);
-            this.SetCharges(1);
+            this.SetCharges(2);
+            this.SetDuration(2);
         }
 
         public override void Uncast()
         {
-
+            this.caster.GetComponent<Objects.Player>().SetColor(Color.white);
+            Gravity.Reverse();
         }
 
         public override bool Cast(Unit target)
         {
             if (this.caster.HasBuff("InvertGravity") && base.Cast(target))
             {
-                Physics.gravity *= -1;
-                this.caster.GetComponent<Objects.Biped>().ReverseGravity();
+                this.caster.GetComponent<Objects.Player>().SetColor(new Color(138, 43, 226));
+                Gravity.Reverse();
                 return true;
             }
 

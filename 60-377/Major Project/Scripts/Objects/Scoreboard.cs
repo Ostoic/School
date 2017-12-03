@@ -17,13 +17,6 @@ namespace Objects
 		private int kills = 0;
 		public Text enemyDestroyedText;
 
-        void Start()
-        {
-            this.collectibleText.text = "";
-            this.enemyDestroyedText.text = "";
-            this.enemyDestroyedText.text = "";
-        }
-
 		public int GetKills()
 		{
 			return this.kills;
@@ -46,13 +39,11 @@ namespace Objects
 
 		public void RegisterKill()
 		{
-			Debug.Log("Enemy killed");
 			this.kills++;
 		}
 
 		public void RegisterItemCollected()
 		{
-			Debug.Log("Item collected");
 			this.itemsCollected++;
 		}
 
@@ -66,7 +57,7 @@ namespace Objects
 		}
 		void SetCurrentLevelText()
 		{
-            enemyDestroyedText.text = "Current Level: " + GetCurrentLevel ().ToString ();
+            currentLevelText.text = "Current Level: " + GetCurrentLevel ().ToString ();
 		}
 
 		void Update () {

@@ -21,9 +21,16 @@ namespace Spells
             if (base.Cast(target))
             {
                 Transform transform = this.caster.GetComponent<Transform>();
-                Projectile projectile = (Projectile)GameObject.Instantiate(Resources.Load("Projectile"), new Vector3(transform.position.x, transform.position.y + 1, 0), Quaternion.identity);
-                projectile.SetTarget(target.GetComponent<GameObject>());
-                return true;
+                GameObject obj = (GameObject)GameObject.Instantiate(Resources.Load("Projectile"), new Vector3(transform.position.x, transform.position.y + 1, 0), Quaternion.identity);
+                Projectile projectile = obj.GetComponent<Projectile>();
+
+                if (projectile)
+                {
+                    projectile.SetTarget(target.gameObject);
+                    return true;
+                }
+                else
+                    Debug.LogError("Unable to instantiate projectile");
             }
 
             return false;

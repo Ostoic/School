@@ -8,11 +8,12 @@ namespace Powerups
     {
         public override void Collect(Classes.Player player)
         {
-            Debug.Log("Blink powerup");
-
             // Give player the ability to cast Blink.
             Spells.Blink blink = (Spells.Blink)player.GetSpell("Blink");
             player.ReceiveBuff(blink);
+
+            this.GetUI(player).SetSpellText("Blink", 5);
+            GameObject.Instantiate(Resources.Load("Effects\\BlueEffect"));
         }
     }
 }

@@ -8,10 +8,12 @@ namespace Powerups
     {
         public override void Collect(Classes.Player player)
         {
-            Debug.Log("Gravity powerup");
             Spells.InvertGravity invert = (Spells.InvertGravity)player.GetSpell("InvertGravity");
             player.ReceiveBuff(invert);
             invert.Cast();
+
+            this.GetUI(player).SetSpellText("Invert Gravity", 1);
+            GameObject.Instantiate(Resources.Load("Effects\\PurpleEffect"));
         }
     }
 }

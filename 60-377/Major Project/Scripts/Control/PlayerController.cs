@@ -7,23 +7,19 @@ namespace Control
     [DisallowMultipleComponent]
     [RequireComponent(
         typeof(Rigidbody),          // Requires class to have Rigidbody,
-        typeof(Objects.Biped),      // a Objects.Biped component,
+        typeof(Objects.Player),      // a Objects.Biped component,
         typeof(Classes.Player))]    // and a Classes.Player component.
     public class PlayerController : MonoBehaviour
     {
         private Internal.InputController controller;
 
-        private Objects.Biped biped;
+        private Objects.Player biped;
         private Classes.Player player;
 
         private Queue<System.Action> fixedQueue;
 
         void BlinkAction()
         {
-            //Vector3 target = Input.mousePosition;
-            //target = Camera.main.ScreenToWorldPoint(target);
-            //target.z = this.transform.position.z;
-
             Vector3 target = Input.mousePosition;
             target.z = -Camera.main.transform.position.z + this.transform.position.z;
             target = Camera.main.ScreenToWorldPoint(target);
@@ -33,12 +29,16 @@ namespace Control
             blink.Cast();
         }
 
-        void GravityAction()
+        void LaserAction()
         {
-            Debug.Log("Gravity");
-            Spells.InvertGravity invert = (Spells.InvertGravity)this.player.GetSpell("InvertGravity");
-            this.player.ReceiveBuff(invert);
-            invert.Cast();
+            Vector3 target = Input.mousePosition;
+            target.z = -Camera.main.transform.position.z + this.transform.position.z;
+            target = Camera.main.ScreenToWorldPoint(target);
+            target.z = 0;
+
+            Spells.Laser laser = (Spells.Laser)this.player.GetSpell("Laser");
+            laser.SetLocation(target);
+            laser.Cast();
         }
 
         void JumpAction()
@@ -48,7 +48,7 @@ namespace Control
 
         void Start()
         {
-            this.biped = GetComponent<Objects.Biped>();
+            this.biped = GetComponent<Objects.Player>();
             this.player = GetComponent<Classes.Player>();
 
             // XXX Set this in Unity Input manager.
@@ -57,10 +57,9 @@ namespace Control
             this.controller = new Internal.InputController();
 
             this.controller.RegisterMouse(1, this.BlinkAction);
-            //this.controller.RegisterMouse(2, this.BlinkAction);
+            this.controller.RegisterMouse(0, this.LaserAction);
 
             this.controller.RegisterKey(KeyCode.Space, this.JumpAction);
-            this.controller.RegisterKey(KeyCode.Alpha2, this.GravityAction);
         }
 
         void Update()

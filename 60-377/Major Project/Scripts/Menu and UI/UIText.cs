@@ -7,22 +7,13 @@ using UnityEngine.SceneManagement;
 public class UIText : MonoBehaviour {
 
 	public Text collectibleText;
-	private int collectibleCount;
+    private int collectibleCount = 0;
 
 	public Text enemyDestroyedText;
-	private int enemyDestroyedCount;
+    private int enemyDestroyedCount = 0;
 
 	public Text currentLevelText;
-	private int currentLevel;
-
-	//scriptA scriptAInstance = GetComponent<scriptA>();
-
-	// Use this for initialization
-	void Start () {
-		collectibleCount = 0;
-		enemyDestroyedCount = 0;
-		currentLevel = 0;
-	}
+    private int currentLevel = 0;
 
 	void SetCollectibleText()
 	{
@@ -38,13 +29,10 @@ public class UIText : MonoBehaviour {
 	}
 
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
 		SetCollectibleText ();
 		SetEnemyDestroyedText ();
 		SetCurrentLevelText ();
-
-//		Scoreboard other = gameObject.GetComponent<Scoreboard> ();
-//		other.GetItemsCollected ();
-
 	}
 }

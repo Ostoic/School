@@ -6,7 +6,7 @@ using Spells;
 
 namespace Classes
 {
-    public class Enemy2 : Unit
+    public class Enemy2 : Enemy
     {
         float timer;
 		bool TimerCount;
@@ -37,12 +37,11 @@ namespace Classes
         }
 
         // Use this for initialization
-        void Start()
+        protected override void Start()
         {
-         
+            base.Start();
             this.SetTarget(GameObject.FindGameObjectWithTag("Player").transform);
             this.ExplosiveBody(GameObject.FindGameObjectWithTag("Player").GetComponent<Rigidbody>());
-            this.LearnSpell("HeadStomp", new Spells.HeadStomp(this));
             this.LearnSpell("Teleport", new Spells.Teleport(this));
             this.LearnSpell("Explosion", new Spells.Explosion(this));
 			TimerCount = false;

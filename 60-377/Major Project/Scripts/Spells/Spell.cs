@@ -102,6 +102,7 @@ namespace Spells
         /// <returns>True if the spell is on cooldown, false otherwise.</returns>
         public virtual bool IsOnCooldown()
         {
+            if (this.cooldown == 0) return false;
             return (Time.time - this.castEpoch) <= this.cooldown;
         }
 
@@ -130,7 +131,7 @@ namespace Spells
         /// Set the spell's cooldown time.
         /// </summary>
         /// <param name="cooldown">The time in seconds.</param>
-        protected void SetCooldown(float cooldown)
+        public void SetCooldown(float cooldown)
         {
             this.cooldown = cooldown;
         }
