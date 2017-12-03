@@ -60,7 +60,7 @@ namespace Spells
         /// Set the number of charges the spell can use.
         /// </summary>
         /// <param name="charges">the number of charges.</param>
-        protected void SetCharges(SpellCharges charges)
+        public void SetCharges(SpellCharges charges)
         {
             this.chargesLeft = charges;
         }
@@ -71,6 +71,9 @@ namespace Spells
         /// <returns>true if the spell has charges left, false otherwise.</returns>
         public bool HasCharges()
         {
+            if (this.chargesLeft == SpellCharges.Infinity)
+                return true;
+
             return this.chargesLeft > 0;
         }
 
@@ -91,8 +94,6 @@ namespace Spells
             // If the spell has a finite number of charges, decrease its number of charges left.
             if (this.chargesLeft.IsFinite())
                 this.chargesLeft--;
-
-            Debug.Log(this.ToString() + " charges left: " + this.chargesLeft);
         }
 
         /// <summary>

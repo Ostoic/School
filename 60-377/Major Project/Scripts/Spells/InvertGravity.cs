@@ -6,17 +6,22 @@ using Classes;
 
 namespace Spells
 {
-    public class InvertGravity : Spell
+    public class InvertGravity : Buff
     {
         public InvertGravity(Player caster) : base(caster)
         {
-            this.SetCooldown(10);
-            this.SetCharges(2);
+            this.SetCooldown(0);
+            this.SetCharges(1);
+        }
+
+        public override void Uncast()
+        {
+
         }
 
         public override bool Cast(Unit target)
         {
-            if (base.Cast(target))
+            if (this.caster.HasBuff("InvertGravity") && base.Cast(target))
             {
                 Physics.gravity *= -1;
                 this.caster.GetComponent<Objects.Biped>().ReverseGravity();

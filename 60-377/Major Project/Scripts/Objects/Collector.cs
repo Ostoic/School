@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-using Spells;
+using Classes;
 
 namespace Objects
 {
     [DisallowMultipleComponent]
+    [RequireComponent(typeof(Classes.Player))]
     public class Collector : MonoBehaviour
     {
         void OnTriggerEnter(Collider collider)
@@ -14,7 +15,13 @@ namespace Objects
             if (collider.tag == "Collectible")
             {
                 Collectible collectible = collider.GetComponent<Collectible>();
-                collectible.Collect();
+                if (collectible == null)
+                {
+                    Debug.LogError("Collectible is missing Objects.Collectible script!");
+                    return;
+                }
+
+                collectible.Collect(this.GetComponent<Player>());
 
                 Destroy(collider.gameObject);
             }

@@ -8,21 +8,16 @@ namespace Control
 {
     namespace Internal
     {
-        public class InputAction
+        public abstract class InputAction
         {
-            private KeyCode keycode;
             private Action action;
 
-            public InputAction(KeyCode keycode, Action action)
+            public InputAction(Action action)
             {
-                this.keycode = keycode;
                 this.action = action;
             }
 
-            public KeyCode GetKey()
-            {
-                return this.keycode;
-            }
+            public abstract bool Check();
 
             public void Invoke()
             {

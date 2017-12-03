@@ -6,17 +6,17 @@ using Spells;
 
 namespace Classes
 {
+    [RequireComponent(typeof(Renderer), typeof(Transform))]
     public abstract class Unit : MonoBehaviour
     {
         [SerializeField]
-        private int maxHealth = 0;
-        private int health = 0;
+        private int maxHealth = 1;
+		[SerializeField]
+        private int health = 1;
 
-        [SerializeField]
-        private int maxMana = 0;
-        private int mana = 0;
+        private bool invulnerable = false;
 
-        private List<Spell> activeSpells;
+        private List<Buff> activeBuffs;
 
         // Contains all possible spells the unit is able to cast.
         private Dictionary<string, Spell> spellTable;
@@ -25,8 +25,7 @@ namespace Classes
         {
             this.spellTable = new Dictionary<string, Spell>();
             this.RestoreHealth(this.maxHealth);
-            this.RestoreMana(this.maxMana);
-            this.activeSpells = new List<Spell>();
+            this.activeBuffs = new List<Buff>();
         }
 
         /// <summary>
@@ -34,7 +33,7 @@ namespace Classes
         /// </summary>
         /// <param name="spellName">The name of the spell (key).</param>
         /// <param name="spell">The spell object (value).</param>
-        protected void AddSpell(string spellName, Spell spell)
+        protected void LearnSpell(string spellName, Spell spell)
         {
             if (this.spellTable == null)
                 Debug.LogError("Invalid awake order. Make sure derived classes of Unit are instantiated via Start()");
@@ -44,6 +43,23 @@ namespace Classes
 
             else
                 Debug.LogError("Invalid spell object");
+        }
+
+        public void SetTransparent(bool state)
+        {
+            float a = (state) ? 0.5f : 1;
+
+            Material material = this.GetComponent<Renderer>().material;
+
+            if (state)
+                Utility.ChangeRenderMode(material, Utility.RenderingMode.Transparent);
+            else
+                Utility.ChangeRenderMode(material, Utility.RenderingMode.Opaque);
+
+            Color newColor = material.color;
+
+            newColor.a = a;
+            material.color = newColor;
         }
 
         public Spell GetSpell(string spellName)
@@ -60,18 +76,31 @@ namespace Classes
                 return null;
         }
 
-        public bool HasSpellActive(Spell spell)
+        public Buff GetBuff(string buffName)
         {
-            return this.activeSpells.Contains(spell);
+            foreach (Buff buff in this.activeBuffs)
+            {
+                if (buff.ToString().Contains(buffName))
+                    return buff;
+            }
+
+            return null;
         }
 
-        /// <summary>
-        /// Get the maximum amount of mana the unit can have.
-        /// </summary>
-        /// <returns>The maximum amount of mana.</returns>
-        public int GetMaxMana()
+        public bool HasBuff(string buffName)
         {
-            return this.maxMana;
+            return this.GetBuff(buffName) != null;
+        }
+
+        public void ReceiveBuff(Buff buff)
+        {
+            if (!this.activeBuffs.Contains(buff))
+                this.activeBuffs.Add(buff);
+        }
+
+        public bool HasExpired(Buff buff)
+        {
+            return !this.activeBuffs.Contains(buff) || !buff.IsActive();
         }
 
         /// <summary>
@@ -84,15 +113,44 @@ namespace Classes
         }
 
         /// <summary>
+        /// Get the maximum amount of health the unit can have.
+        /// </summary>
+        /// <returns>The maximum amount of health.</returns>
+        public int GetHealth()
+        {
+            return this.health;
+        }
+
+        /// <summary>
         /// Apply damage to the unit.
         /// </summary>
         /// <param name="amount">The amount of damage to apply.</param>
         public void Damage(int amount)
         {
+            if (this.invulnerable) return;
+
             if (this.health + amount > 0)
                 this.health -= amount;
             else
                 this.health = 0;
+        }
+
+        /// <summary>
+        /// Set whether the unit is invulnerable or not.
+        /// </summary>
+        /// <param name="state">The state of invulnerability.</param>
+        public void SetInvulnerable(bool state)
+        {
+            this.invulnerable = state;
+        }
+
+        /// <summary>
+        /// Determine if the unit is invulnerable or not.
+        /// </summary>
+        /// <returns>true if the unit is invulnerable, false otherwise.</returns>
+        public bool IsInvulnerable()
+        {
+            return this.invulnerable;
         }
 
         /// <summary>
@@ -107,28 +165,18 @@ namespace Classes
                 this.health = this.maxHealth;
         }
 
-        /// <summary>
-        /// Use some of the unit's mana.
-        /// </summary>
-        /// <param name="amount">The amount of mana to use.</param>
-        public void UseMana(int amount)
+        public bool IsFullHealth()
         {
-            if (this.mana + amount > 0)
-                this.mana -= amount;
-            else
-                this.mana = 0;
+            return this.health == this.maxHealth;
         }
 
         /// <summary>
-        /// Restore mana to the unit.
+        /// Overheal the unit
         /// </summary>
-        /// <param name="amount">The amount of mana to restore</param>
-        public void RestoreMana(int amount)
+        /// <param name="amount">The amount of health to heal.</param>
+        public void Overheal(int amount)
         {
-            if (this.mana + health < this.maxMana)
-                this.mana += amount;
-            else
-                this.mana = this.maxMana;
+            this.health += amount;
         }
 
         /// <summary>
@@ -167,13 +215,9 @@ namespace Classes
                 // Retrieve spell object
                 Spell spell = this.spellTable[spellName];
 
-                // Unit must have enough mana to cast spell
-                if (spell.GetManaCost() <= this.mana)
-                {
-                    // Cast spell
-                    if (spell.Cast(target))
-                        return true;
-                }
+                // Cast spell
+                if (spell.Cast(target))
+                    return true;
             }
             else
                 Debug.LogError("Spell not found in Unit's spell table");
@@ -195,6 +239,39 @@ namespace Classes
         public bool CastSpell(string spellName)
         {
             return this.CastSpell(spellName, this);
+        }
+
+        private void UpdateBuffs()
+        {
+            foreach (Buff buff in this.activeBuffs)
+            {
+                // If the buff has expired, uncast it, then remove it from
+                // the active buffs list.
+                if (this.HasExpired(buff))
+                {
+                    buff.Uncast();
+                    this.activeBuffs.Remove(buff);
+                    break;
+                }
+            }
+        }
+
+        private void UpdateHealth()
+        {
+            if (this.IsDead())
+            {
+                Destroy(this.gameObject);
+                // Game over event here
+            }
+        }
+
+        /// <summary>
+        /// Update the unit's buff statuses.
+        /// </summary>
+        protected virtual void Update()
+        {
+            this.UpdateBuffs();
+            this.UpdateHealth();
         }
     }
 }

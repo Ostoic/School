@@ -18,19 +18,32 @@ namespace Control
 
         private Queue<System.Action> fixedQueue;
 
-        void TeleportTest()
+        void BlinkAction()
         {
-            GameObject target = GameObject.Find("Target");
+            //Vector3 target = Input.mousePosition;
+            //target = Camera.main.ScreenToWorldPoint(target);
+            //target.z = this.transform.position.z;
 
-            Spells.Teleport teleport = (Spells.Teleport)this.player.GetSpell("Teleport");
-            teleport.SetLocation(target.transform.position);
-            teleport.Cast();
+            Vector3 target = Input.mousePosition;
+            target.z = -Camera.main.transform.position.z + this.transform.position.z;
+            target = Camera.main.ScreenToWorldPoint(target);
 
+            Spells.Blink blink = (Spells.Blink)this.player.GetSpell("Blink");
+            blink.SetLocation(target);
+            blink.Cast();
         }
 
-        void GravitySwitchTest()
+        void GravityAction()
         {
-            this.player.CastSpell("InvertGravity");
+            Debug.Log("Gravity");
+            Spells.InvertGravity invert = (Spells.InvertGravity)this.player.GetSpell("InvertGravity");
+            this.player.ReceiveBuff(invert);
+            invert.Cast();
+        }
+
+        void JumpAction()
+        {
+            this.fixedQueue.Enqueue(AttemptJump);
         }
 
         void Start()
@@ -39,14 +52,15 @@ namespace Control
             this.player = GetComponent<Classes.Player>();
 
             // XXX Set this in Unity Input manager.
-            Physics.gravity *= 2;
 
             this.fixedQueue = new Queue<System.Action>();
             this.controller = new Internal.InputController();
 
-            this.controller.RegisterAction(KeyCode.Space, () => { this.fixedQueue.Enqueue(AttemptJump); });
-            this.controller.RegisterAction(KeyCode.T, TeleportTest);
-            this.controller.RegisterAction(KeyCode.G, GravitySwitchTest);
+            this.controller.RegisterMouse(1, this.BlinkAction);
+            //this.controller.RegisterMouse(2, this.BlinkAction);
+
+            this.controller.RegisterKey(KeyCode.Space, this.JumpAction);
+            this.controller.RegisterKey(KeyCode.Alpha2, this.GravityAction);
         }
 
         void Update()
@@ -57,12 +71,12 @@ namespace Control
         void AttemptJump()
         {
             if (this.biped.OnGround())
-                this.controller.ResetJumps();
+                this.biped.ResetJumps();
 
-            if (this.controller.JumpAvailable())
+            if (this.biped.IsJumpReady())
             {
                 this.biped.Jump();
-                this.controller.UseJump();
+                this.biped.UseJump();
             }
         }
 
@@ -73,17 +87,6 @@ namespace Control
                 this.fixedQueue.Dequeue()();
         }
 
-        void ColorColliders()
-        {
-            Collider[] collisions = this.biped.GetOverlapColliders();
-
-            if (collisions.Length > 0)
-            {
-                foreach (Collider collider in collisions)
-                    collider.GetComponent<Renderer>().material.color = Color.blue;
-            }
-        }
-
         void FixedUpdate()
         {
             // Update velocity
@@ -92,11 +95,6 @@ namespace Control
             this.InvokeFixedActions();
 
             this.biped.UpdateVelocity();
-        }
-
-        void LateUpdate()
-        {
-            ColorColliders();
         }
     }
 }

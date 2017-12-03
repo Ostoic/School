@@ -11,28 +11,12 @@ namespace Control
             private float runInput = 0;
 
             private float threshold = 0.1f;
-            private int jumpsAvailable = 2;
 
             List<InputAction> actions;
 
             public InputController()
             {
                 this.actions = new List<InputAction>();
-            }
-
-            public void ResetJumps()
-            {
-                this.jumpsAvailable = 2;
-            }
-
-            public void UseJump()
-            {
-                this.jumpsAvailable--;
-            }
-
-            public bool JumpAvailable()
-            {
-                return this.jumpsAvailable > 0;
             }
 
             void UpdateRunInput()
@@ -53,9 +37,19 @@ namespace Control
             /// </summary>
             /// <param name="keycode">The key to poll for input.</param>
             /// <param name="action">The action to invoke.</param>
-            public void RegisterAction(KeyCode keycode, System.Action action)
+            public void RegisterKey(KeyCode keycode, System.Action action)
             {
-                this.actions.Add(new InputAction(keycode, action));
+                this.actions.Add(new KeyboardAction(keycode, action));
+            }
+
+            /// <summary>
+            /// Create new InputAction that will be invoked when the given keycode is pressed.
+            /// </summary>
+            /// <param name="keycode">The key to poll for input.</param>
+            /// <param name="action">The action to invoke.</param>
+            public void RegisterMouse(int button, System.Action action)
+            {
+                this.actions.Add(new MouseAction(button, action));
             }
 
             public void InvokeInput()
@@ -67,7 +61,7 @@ namespace Control
                 {
                     // For each action's key that is pressed, 
                     // invoke the corresponding action.
-                    if (Input.GetKeyDown(input.GetKey()))
+                    if (input.Check())
                         input.Invoke();
                 }
             }
