@@ -11,8 +11,6 @@ namespace Classes
         float timer;
 		bool TimerCount;
       
-      //  Rigidbody ThisRigidBody;
-       // Rigidbody targetRigidBody;
         private Transform target;
         private Vector3 targetPosition;
         private Rigidbody targetBody;
@@ -33,7 +31,6 @@ namespace Classes
             targetPosition.x = this.target.position.x;
             targetPosition.y = this.target.position.y;
             return (Vector3.Distance(this.transform.position, targetPosition)<5);
-          
         }
 
         // Use this for initialization
@@ -59,10 +56,8 @@ namespace Classes
                 Teleport teleport = (Teleport)this.GetSpell("Teleport");
                 teleport.SetLocation(targetPosition);
                 teleport.Cast();
-              //  Debug.Log("within range");
-				TimerCount = true;
 
-              
+				TimerCount = true;
             }
 			if(TimerCount==true){
 				timer += Time.deltaTime;

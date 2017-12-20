@@ -16,7 +16,6 @@ namespace Classes
         protected override void Start()
         {
             base.Start();
-            Debug.Log("Groomba");
             jumpBody = this.GetComponent<Rigidbody>();
             player = (GameObject.FindGameObjectWithTag("Player"));
         }

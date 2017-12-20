@@ -28,7 +28,7 @@ namespace Spells
 			if (casterBody)
 			{				
 				target.AddExplosionForce(1000, this.caster.transform.position, 3, 3.0f);
-				return true;
+                return true;
 			}
 			else
 			{
@@ -52,6 +52,7 @@ namespace Spells
                 if (ApplyForce(this.targetBody))
                 {
                     target.Damage(1);
+                    GameObject.Instantiate(Resources.Load("Effects\\RedEffect"), target.transform.position, Quaternion.identity);
                     return true;
                 }
             }

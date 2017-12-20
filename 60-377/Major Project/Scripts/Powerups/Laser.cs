@@ -13,7 +13,7 @@ namespace Powerups
             player.CastSpell("Laser");
 
             this.GetUI(player).SetSpellText("Laser", 30);
-            GameObject.Instantiate(Resources.Load("Effects\\RedEffect"));
+            GameObject.Instantiate(Resources.Load("Effects\\RedEffect"), player.transform.position, Quaternion.identity);
         }
     }
 }

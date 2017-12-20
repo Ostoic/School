@@ -13,7 +13,7 @@ namespace Powerups
             invert.Cast();
 
             this.GetUI(player).SetSpellText("Invert Gravity", 1);
-            GameObject.Instantiate(Resources.Load("Effects\\PurpleEffect"));
+            GameObject.Instantiate(Resources.Load("Effects\\PurpleEffect"), player.transform.position, Quaternion.identity);
         }
     }
 }

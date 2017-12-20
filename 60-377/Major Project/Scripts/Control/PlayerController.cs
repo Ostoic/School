@@ -23,6 +23,7 @@ namespace Control
             Vector3 target = Input.mousePosition;
             target.z = -Camera.main.transform.position.z + this.transform.position.z;
             target = Camera.main.ScreenToWorldPoint(target);
+            target.z = 0.2f;
 
             Spells.Blink blink = (Spells.Blink)this.player.GetSpell("Blink");
             blink.SetLocation(target);
@@ -34,7 +35,7 @@ namespace Control
             Vector3 target = Input.mousePosition;
             target.z = -Camera.main.transform.position.z + this.transform.position.z;
             target = Camera.main.ScreenToWorldPoint(target);
-            target.z = 0;
+            target.z = 0.2f;
 
             Spells.Laser laser = (Spells.Laser)this.player.GetSpell("Laser");
             laser.SetLocation(target);

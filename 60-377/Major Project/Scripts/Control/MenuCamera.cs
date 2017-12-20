@@ -5,10 +5,10 @@ using UnityEngine;
 namespace Control
 {
     [DisallowMultipleComponent]
-    public class MainCamera : MonoBehaviour
+    public class MenuCamera : MonoBehaviour
     {
         public float zOffset = -10.0f;
-        public float yOffset = 10.0f;
+        public float yOffset = 4;
 
         private Transform target;
         private Vector3 targetPosition;
@@ -21,21 +21,21 @@ namespace Control
         void Start()
         {
             this.SetTarget(GameObject.FindGameObjectWithTag("Player").transform);
-            this.targetPosition = new Vector3(this.target.position.x, this.target.position.y + 10, this.target.position.z - 10);
+            this.targetPosition = new Vector3(this.target.position.x, this.target.position.y + yOffset, this.target.position.z + zOffset);
         }
 
         void UpdateTarget()
         {
-            if (this.target.position.x > transform.position.x) targetPosition.x = this.target.position.x;
-            targetPosition.y = this.target.position.y + yOffset;
-            targetPosition.z = this.target.position.z + zOffset;
+            this.targetPosition.x = this.target.position.x;
+            this.targetPosition.y = this.target.position.y + yOffset;
+            this.targetPosition.z = this.target.position.z + zOffset;
         }
 
         void LateUpdate()
         {
             this.UpdateTarget();
-            transform.position = targetPosition;
-            transform.LookAt(new Vector3(this.transform.position.x, this.target.position.y, this.target.position.z));
+            this.transform.position = targetPosition;
+            this.transform.LookAt(this.target);
         }
     }
 }

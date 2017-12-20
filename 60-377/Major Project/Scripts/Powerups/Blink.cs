@@ -13,7 +13,7 @@ namespace Powerups
             player.ReceiveBuff(blink);
 
             this.GetUI(player).SetSpellText("Blink", 5);
-            GameObject.Instantiate(Resources.Load("Effects\\BlueEffect"));
+            GameObject.Instantiate(Resources.Load("Effects\\BlueEffect"), player.transform.position, Quaternion.identity);
         }
     }
 }

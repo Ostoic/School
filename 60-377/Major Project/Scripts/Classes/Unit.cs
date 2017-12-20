@@ -103,7 +103,10 @@ namespace Classes
         public void ReceiveBuff(Buff buff)
         {
             if (!this.activeBuffs.Contains(buff))
+            {
                 this.activeBuffs.Add(buff);
+                buff.StartBuff();
+            }
         }
 
         public bool HasExpired(Buff buff)

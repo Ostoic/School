@@ -24,7 +24,7 @@ namespace Spells
 
         public override void Uncast()
         {
-            this.caster.gameObject.GetComponent<Objects.Player>().SetColor(Color.red);
+            this.caster.gameObject.GetComponent<Objects.Player>().SetColor(Color.white);
         }
 
         public override bool Cast(Unit target)

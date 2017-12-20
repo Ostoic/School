@@ -28,6 +28,10 @@ namespace MenuUI
         private Classes.Player player;
 
         private Spells.Blink blink;
+        private Spells.Laser laser;
+        private Spells.Invulnerability invuln;
+        private Spells.Health shield;
+        private Spells.InvertGravity gravity;
 
         private bool dead = false;
 
@@ -35,11 +39,9 @@ namespace MenuUI
 
         private int lastHealthValue = 3;
 
-        private string spellName = "Spell";
-
         private int spellCharges = 5;
 
-        private int previousCharges = 5;
+        private int previousValue = 0;
 
         // Use this for initialization
         void Start()
@@ -47,16 +49,25 @@ namespace MenuUI
             this.healthSlider.value = this.healthSlider.maxValue;
             this.player = this.playerObj.GetComponent<Classes.Player>();
             this.blink = (Spells.Blink)this.player.GetSpell("Blink");
+            this.laser = (Spells.Laser)this.player.GetSpell("Laser");
+            this.invuln = (Spells.Invulnerability)this.player.GetSpell("Invulnerability");
+            this.shield = (Spells.Health)this.player.GetSpell("Health");
+            this.gravity = (Spells.InvertGravity)this.player.GetSpell("InvertGravity");
 
             this.ToggleSpellUI(false);
         }
 
         public void SetSpellText(string spellName, int charges)
         {
-            this.spellCharges = charges;
-            this.spellName = spellName;
-            this.spellNameText.text = System.String.Format("Powerup: {0}", this.spellName);
-            this.chargesText.text = System.String.Format("{0} charges left", this.spellCharges);
+            this.spellNameText.text = System.String.Format("Powerup: {0}", spellName);
+            this.chargesText.text = System.String.Format("{0} charges left", charges);
+            this.ToggleSpellUI(true);
+        }
+
+        public void SetSpellTimerText(string spellName, int timeLeft)
+        {
+            this.spellNameText.text = System.String.Format("Powerup: {0}", spellName);
+            this.chargesText.text = System.String.Format("{0} seconds left", timeLeft);
             this.ToggleSpellUI(true);
         }
 
@@ -94,17 +105,30 @@ namespace MenuUI
 
             if (this.player.HasBuff("Blink"))
             {
-                if (!this.spellNameText.enabled || this.blink.GetChargesLeft() != this.previousCharges)
-                {
-                    this.previousCharges = this.blink.GetChargesLeft();
-                    this.SetSpellText("Blink", this.blink.GetChargesLeft());
-
-                    if (!this.spellNameText.enabled) this.spellNameText.enabled = true;
-                    if (!this.chargesText.enabled) this.chargesText.enabled = true;
-                }
+                this.SetSpellText("Blink", this.blink.GetChargesLeft());
             }
 
-            if (this.player.GetActiveBuffs().Count == 0)
+            else if (this.player.HasBuff("Laser"))
+            {
+                this.SetSpellTimerText("Laser", (int)this.laser.GetTimeLeft());
+            }
+
+            else if (this.player.HasBuff("InvertGravity"))
+            {
+                this.SetSpellTimerText("InvertGravity", (int)this.gravity.GetTimeLeft());
+            }
+
+            else if (this.player.HasBuff("Invulnerability"))
+            {
+                this.SetSpellTimerText("Invulnerability", (int)this.invuln.GetTimeLeft());
+            }
+
+            else if (this.player.HasBuff("Health"))
+            {
+                this.SetSpellTimerText("Health Shield", (int)this.shield.GetTimeLeft());
+            }
+
+            else if (this.player.GetActiveBuffs().Count == 0)
                 this.ToggleSpellUI(false);
         }
 

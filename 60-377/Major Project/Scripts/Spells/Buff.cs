@@ -28,6 +28,11 @@ namespace Spells
             this.duration = Internal.BuffDuration.Infinity;
         }
 
+        public void StartBuff()
+        {
+            this.startTime = Time.time;
+        }
+
         public void SetDuration(float duration)
         {
             this.duration = duration;
@@ -36,6 +41,11 @@ namespace Spells
         public Unit GetTarget()
         {
             return this.target;
+        }
+
+        public float GetTimeLeft()
+        {
+            return this.GetDuration() - this.GetElapsed();
         }
 
         public float GetElapsed()
@@ -63,7 +73,6 @@ namespace Spells
             if (base.Cast(target))
             {
                 this.target = target;
-                this.startTime = Time.time;
                 return true;
             }
 

@@ -12,7 +12,7 @@ namespace Powerups
             player.ReceiveBuff((Spells.Buff)player.GetSpell("Health"));
             player.CastSpell("Health");
             this.GetUI(player).SetSpellText("Health Shield", 1);
-            GameObject.Instantiate(Resources.Load("Effects\\GreenEffect"));
+            GameObject.Instantiate(Resources.Load("Effects\\GreenEffect"), player.transform.position, Quaternion.identity);
         }
     }
 }

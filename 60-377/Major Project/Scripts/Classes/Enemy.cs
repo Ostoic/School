@@ -17,7 +17,6 @@ namespace Classes
 
         void OnTriggerEnter(Collider collision)
         {
-            Debug.Log(collision.gameObject.tag);
             if (collision.gameObject.tag == "FootHead")
             {
                 Objects.Player playerObj = collision.gameObject.GetComponentInParent<Objects.Player>();

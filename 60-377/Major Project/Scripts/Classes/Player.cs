@@ -8,7 +8,7 @@ namespace Classes
     [RequireComponent(typeof(Objects.Player), typeof(Objects.Scoreboard), typeof(Rigidbody))]
     public class Player : Unit
     {
-        void Start()
+        void OnEnable()
         {
             // Powerup spells
             this.LearnSpell("Blink", new Spells.Blink(this));

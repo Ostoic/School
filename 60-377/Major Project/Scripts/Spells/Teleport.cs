@@ -33,6 +33,7 @@ namespace Spells
             if (casterTransform)
             {
                 casterTransform.position = targetLocation;
+                GameObject.Instantiate(Resources.Load("Effects\\BlueEffect"), this.caster.transform.position, Quaternion.identity);
                 return true;
             }
             else
