@@ -59,7 +59,7 @@ int wmain()
 	wprintf(L"Done.\n");
 
 	// File read buffer
-	wchar_t buffer[256];
+	char buffer[256];
 	DWORD bytesRead = 0; // Number of bytes read from the file
 
 	wprintf(L"Copying %s to %s...", inputFile, outputFile);
