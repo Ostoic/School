@@ -1,0 +1,213 @@
+import java_cup.runtime.*;
+import java.io.*;
+import java.util.*;
+
+terminal String NUMBER, WHITESPACE, VOID, INT, RETURN;
+terminal String MAIN, PRINTF;
+terminal String PLUS, INCREMENT, MINUS, DECREMENT, PRODUCT, DIVIDE;
+terminal String SEMI, COMMA, LPAR, RPAR, LBRA, RBRA;
+terminal String GT, LT, GTE, LTE;
+terminal String IF, ELSE, FOR, WHILE;
+terminal String EQUAL, HASH, ID, QUOTES, COMMENTS, INLINECOMMENTS;
+
+non terminal String program, type, methodDecl, formalParams, formalParam, block;
+non terminal String statement, statements, conditionalStmt, forStmt, whileStmt, exprStmt; 
+
+// printParams consist of a vector of function parameters after the format string.
+non terminal Vector<String> printParams;
+non terminal String localVarDecl, assignStmt, returnStmt, expression, multiplicativeExpr, primaryExpr, actualParams, printStmt, full;
+
+precedence nonassoc  INT, RETURN, ID, LPAR, LBRA, VOID, WHILE, IF, ELSE, PRINTF;
+precedence left PLUS, MINUS, LT, GT, LTE, GTE;
+
+full::= program:e 
+		{: 
+			RESULT = ("public class A51_Testoutput {\n" + e + "\n}"); 
+		:};
+
+program ::=
+		  methodDecl:e program:e2
+			{: RESULT = (e + "\n" + e2); :}
+        | methodDecl:e 
+			{: RESULT = (e); :}
+        ;
+
+type ::= INT {: RESULT= ("int "); :}
+        | VOID {: RESULT = ("void "); :}
+		;
+
+methodDecl ::= 
+		type MAIN LPAR RPAR block:b
+			{: 
+				RESULT = ("public static void main(String [] args)\n" + b); 
+			:}
+        |type MAIN LPAR formalParams RPAR block:b 
+			{: 
+				RESULT = ("public static void main(String [] args)\n" + b); 
+			:}
+			
+        |type:type ID:id LPAR RPAR block:b 
+			{: 
+				RESULT = ("static " + type + " " + id + "()" + b); 
+			:}
+			
+        |type:type ID:id LPAR formalParams:params RPAR block:block 
+			{: 
+				RESULT = ("static " + type + " " + id + "(" + params + ")\n" + block);
+			:}
+        ;
+
+formalParams ::= formalParam:fp COMMA formalParams:fps {: RESULT= (fp + ", " + fps); :}
+        |formalParam:fp {: RESULT = (fp); :}
+        ;
+
+formalParam ::= type:t ID:i {: RESULT = (t + " " + i); :}
+        |type
+        ;
+
+block ::= LBRA statements:sts RBRA 
+		{: 
+			RESULT = ("{\n" + sts + "\n}");
+		:}
+       ;
+
+statements ::= statement:s {: RESULT = (s); :}
+        | statement:s statements:sts {: RESULT = (s + " " + sts); :}
+        ;
+
+statement ::= block:b {: RESULT = (b + "\n"); :}
+        | localVarDecl:e {: RESULT = (e + "\n"); :}
+        | assignStmt:e {: RESULT = (e + "\n"); :}
+        | returnStmt:e {: RESULT = (e); :}
+		| conditionalStmt:e {: RESULT = (e); :}
+		| whileStmt:e {: RESULT = (e); :}
+		| forStmt:e {: RESULT = (e); :}
+		| exprStmt:e {: RESULT = (e); :}
+        | printStmt:e {:RESULT = (e + "\n"); :}
+        ;
+		
+conditionalStmt ::= IF LPAR expression:expr RPAR statement:statement
+					{: 
+						RESULT = ("if (" + expr + ")\n" + statement); 
+					:}
+				| conditionalStmt:conditional ELSE statement:statement 
+					{: 
+						RESULT = (conditional + "\nelse\n" + statement); 
+					:}
+				;
+				
+forStmt ::= 
+		  FOR LPAR assignStmt:assignStmt expression:guardExpr SEMI expression:postExpr RPAR statement:statement
+			{: 
+				RESULT = ("for (" + assignStmt + " " + guardExpr + "; " + postExpr + ")\n" + statement);
+			:}
+		;
+		
+whileStmt ::= WHILE LPAR expression:expr RPAR statement:statement
+				{: 
+					RESULT = ("while (" + expr + ")\n" + statement); 
+				:}
+			;
+
+localVarDecl ::= 
+		type:type ID:id SEMI 
+			{: RESULT= (type + " " + id + ";"); :}
+			
+        |type:type ID:id COMMA localVarDecl:lv 
+			{: RESULT= (type + " " + id + ", " + lv); :}
+			
+        |type:type assignStmt:assignment 
+			{: RESULT= (type + " " + assignment); :}
+			
+        |ID SEMI 
+        |ID COMMA localVarDecl
+        ;
+
+assignStmt ::= 
+		ID:i EQUAL expression:e SEMI 
+		{: 
+			RESULT = (i + " = " + e + ";"); 
+		:}
+        |ID:i EQUAL expression:e COMMA assignStmt:as 
+		{: 
+			RESULT = (i + " = " + e + ", " + as); 
+		:}
+        ;
+
+exprStmt ::= expression:e SEMI {: RESULT = (e); :}
+		;
+
+returnStmt ::= RETURN expression:e SEMI {: RESULT= ("return " + e); :}
+        ;
+
+// Parse the format string from printf and build the java equivalent using the string concatenation operator +.
+printStmt ::= PRINTF LPAR QUOTES:q COMMA printParams:params RPAR SEMI 
+			{: 
+				while (params.size() > 0 && q.indexOf("%d") != -1)
+				{
+					String temp = "\" + ";
+					temp += params.get(0) + " + \"";
+					
+					q = q.replace("%d", temp);
+					params.remove(0);
+				}
+				
+				RESULT = ("System.out.print(" + q + ");"); 
+			:}
+        ;
+		
+// Build a java.util.Vector of parameters.
+printParams ::= 
+		expression:e COMMA printParams:pp 
+			{: 
+				RESULT = new Vector<String>();
+				RESULT.add(e);
+				for (String param : pp)
+					RESULT.add(param);
+			:}
+        | expression:e 
+			{: 
+				RESULT = new Vector<String>();
+				RESULT.add(e);
+			:}
+        ;
+
+expression ::= multiplicativeExpr:me {:RESULT= (me);:}
+        |multiplicativeExpr:me PLUS expression:e {:RESULT= (me + " + " + e); :}
+        |multiplicativeExpr:me MINUS expression:e {:RESULT= (me + " - " + e); :}
+        |multiplicativeExpr:me PRODUCT expression:e {:RESULT= (me + " * " + e); :}
+        |multiplicativeExpr:me DIVIDE expression:e {:RESULT= (me + " / " + e); :}
+        |multiplicativeExpr:me LT expression:e {:RESULT= (me + " < " + e); :}
+        |multiplicativeExpr:me GT expression:e {:RESULT= (me + " > " + e); :}
+        |multiplicativeExpr:me GTE expression:e {:RESULT= (me + " >= " + e); :}
+        |multiplicativeExpr:me LTE expression:e {:RESULT= (me + " <= " + e); :}
+        ;
+
+multiplicativeExpr ::= primaryExpr:pe1 {:RESULT= (pe1); :}
+        ;
+
+primaryExpr ::= 
+		ID:id LPAR actualParams:params RPAR 
+			{: RESULT = (id + "(" + params + ")"); :}
+        |LPAR expression:expr RPAR 
+			{:RESULT= ("(" + expr + ")"); :}
+		|ID:id LPAR RPAR 
+			{: RESULT = (id + "()"); :}
+		|ID:id INCREMENT
+			{: RESULT = (id + "++"); :}
+		|INCREMENT ID:id
+			{: RESULT = ("++" + id); :}
+		|ID:id DECREMENT
+			{: RESULT = (id + "--"); :}
+		|DECREMENT ID:id
+			{: RESULT = ("--" + id); :}
+        |QUOTES 
+        |NUMBER:num
+			{: RESULT = (num); :}
+        |ID:id 
+			{: RESULT= (id); :} 
+        ;
+
+actualParams ::= expression:e COMMA actualParams:ap {:RESULT= (e +", " + ap);:}
+        |expression:e {:RESULT= (e);:}
+        ;
