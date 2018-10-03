@@ -44,7 +44,7 @@
 \newcommand{\Or}{\text{ or }}
 \renewcommand{\And}{\text{ and }}
 
-\newcommand{\deriv}[1]{\frac{\text{d}}{\text{d} #1}}
+\newcommand{\deriv}[1]{\frac{d}{d #1}}
 \newcommand{\pderiv}[1]{\frac{\partial}{\partial #1}}
 
 \begin{document}
@@ -173,8 +173,7 @@ Now we continue with the exercises.
 			& \iff x \in A \cup B \Or x \in C\\
 			& \iff x \in (A \cup B) \cup C
 		\end{align*}
-		
-	\item For associativity of set intersection, we proceed similarly.
+		For associativity of set intersection, we proceed similarly.
 		\begin{align*}
 			x \in A \cap (B \cap C) &\iff x \in A  \And  x \in B \cap C \\
 			& \iff x \in A \And (x \in B \And x \in C)\\
@@ -284,7 +283,7 @@ Now we continue with the exercises.
 	\begin{align*}
 		\sum_{i = 1}^5 p_i &= \sum_{i = 1}^5 \frac{11 - 2i}{25}\\
 		&= \frac{\sum_{i=1}^5 11 - 2 \sum_{i=1}^5 i}{25}\\
-		&= \frac{5*11 - 2 \frac{5*6}{2} }{25}\\
+		&= \frac{5 \cdot 11 - 2 \frac{5*6}{2} }{25}\\
 		&= \frac{55 - 30}{25} \\
 		&= \frac{25}{25} = 1.
 	\end{align*}
@@ -298,12 +297,12 @@ Now we continue with the exercises.
 according to the following rules:
 	\begin{enumerate}
 	\item Each candidate is seen in succession (in random order) and a decision is made whether to hire the candidate.
-	\item Having rejected $ m - 1 $ candidates ($ m > 1 $), the employer can hire the $ m $th candidate only if the $ m $th candidate is better than the previois $ m - 1 $.
+	\item Having rejected $ m - 1 $ candidates ($ m > 1 $), the employer can hire the $ m $th candidate only if the $ m $th candidate is better than the previous $ m - 1 $.
 	\end{enumerate}
 Suppose a candidate is hired on the $ i $th trial. What is the probability that the best candidate was hired?
 
 \begin{solution}
-	There are $ N $ candidates in total and each candidate is randomly picked for a given trial. Thus, each candidate is picked for a trial with equal chance. For the first trial, each candidate has probability $ \frac{1}{N} $ that they will be picked. However, this does not speak to what probability they will be hired. On the other hand, if we consider the best candidate, $ B $, from the $ N $ candidates, they have probability $ \frac{1}{N} $ of being hired in the first trial. They will be hired immediately if they are picked since they are the best. Suppose the first trial has passed. Then candidate $ 1 $ was rejected, so there are now $ N - 1 $ candidates left. Candidate $ B $ has probability $ \frac{1}{N-1} $ of being picked and hence of being hired. If we continue in this manner, assuming the $ i -1 $st trial has passed, there are now $ N - (i - 1) $ candidates left. Thus, $ B $ has probability $ \frac{1}{N - (i - 1)} $ of being picked in the $ i $th trial.
+	There are $ N $ candidates in total and each candidate is randomly picked for a given trial. Thus, each candidate is picked for a trial with equal chance. Let $ B $ be the best candidate of the $ N $ candidates. By rule (b), if the $ i $th candidate was hired, then the first $ i-1 $ candidates were removed from the list of employees before going into the trial. If the first candidate was hired, there is a $ \frac{1}{N} $ chance that the candidate was $ B $. Assuming the second candidate was hired, this means that there are now $ N - 1 $ candidates to choose from going into the second trial. Thus, there is a $ \frac{1}{N - 1} $ chance that the candidate was $ B $. Continuing in this manner, if the $ i $th candidate was hired then going into the trial there are $ N - (i - 1) $ candidates left. There is a $ \frac{1}{N - (i - 1)} $ chance that the $ i $th candidate hired was $ B $.
 \end{solution}
 
 \item Suppose that $ 5 \% $ of men and $ .25 \% $ of women are color-blind. A person is chosen at random and that person is color-blind. What is the probability that the person is male? (Assume males and females to be in equal numbers).
@@ -316,7 +315,7 @@ Suppose a candidate is hired on the $ i $th trial. What is the probability that 
 	The probability we are asked to compute is $ P(M \mid C) $. It is clear that either a person is exclusively male or female, so $ M \cup F = S $ form a partition of the sample space. Moreover, males and females are equal in number, there is a $ 50\% $ chance of choosing a male or a female. Using Baye's Rule, we have
 	\begin{align*}
 		P(M \mid C) &= \frac{ P(C \mid M) P(M) }{ P(C \mid F) P(F) + P(C \mid M) P(M)}\\
-		&= \frac{ 0.05 * 0.5 }{0.0025 * 0.5 + 0.05 * 0.5}\\
+		&= \frac{ 0.05 \cdot 0.5 }{0.0025  \cdot 0.5 + 0.05 \cdot 0.5}\\
 		&\approx 0.952380952\\
 		&\approx 95\%
 	\end{align*}
