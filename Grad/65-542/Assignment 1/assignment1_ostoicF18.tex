@@ -197,7 +197,7 @@ Now we continue with the exercises.
 			&\iff \neg (x \in A \And x \in B)\\
 			&\iff x \notin A \Or x \notin B\\
 			&\iff x \in A^c \Or x \in B^c\\
-			&\iff x \in A^c \cup B^c
+			&\iff x \in A^c \cup B^c.
 		\end{align*}
 	\end{enumerate}
 	\end{solution}
@@ -449,7 +449,7 @@ Thus
 	> \frac{1}{3}, &\text{ if } \gamma > \frac{1}{2}.
 \end{cases}\]
 
-\item We are given the assumption that the warden tells $ A $ that $ B $ will die, we know that either $ A $ or $ C $ will die. In the example we know that $ A $ still has probability $ \frac{1}{3} $ that he was pardoned. Let us determine the probability that $ C $ was pardoned, that is $ P(C \mid \mathcal{W}) $. We use the same technique, $ A, B, C$ form a partition, hence $ \mathcal{W} \cap A, \mathcal{W} \cap B, \mathcal{W} \cap C$ form a partition of the sample space. Using the fact that the conditional probability function is itself a probability function, summing elements of a probability gives $ 1 $. Thus
+\item We are given the assumption that the warden tells $ A $ that $ B $ will die, we know that either $ A $ or $ C $ will die. In the example we know that $ A $ still has probability $ \frac{1}{3} $ that he was pardoned. Let us determine the probability that $ C $ was pardoned, that is $ P(C \mid \mathcal{W}) $. We use the fact that $ A, B, C$ forms a partition of the sample space. We proved that the conditional probability function is itself a probability function, so summing probabilities of events comprising a partition yields $ 1 $. Thus
 \begin{align*}
 	1 &= P(A \mid \mathcal{W}) + P(B \mid \mathcal{W}) + P(C \mid \mathcal{W})\\
 	1 &= P(A \mid \mathcal{W}) + P(C \mid \mathcal{W}),\\
@@ -553,7 +553,7 @@ Next we calculate the cdf $F_X(x) $.
 	F_X(4) &= P(X \leq 4) = P(X \leq 3) + P(X = 4) = 0.0001824 + 0.9998144 = 1.
 \end{align*}
 
-Since $ X $ is a discrete random variable, the cdf is step-wise:
+Since $ X $ is a discrete random variable, the cdf is a step function:
 
 \pgfplotsset{%
     ,compat=1.12
