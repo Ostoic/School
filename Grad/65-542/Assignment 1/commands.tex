@@ -1,0 +1,43 @@
+\newcommand{\supp}[1]{\text{supp}(#1)}
+\newcommand{\cat}[1]{\text{\textbf{#1}}}
+\newcommand{\order}[1]{|#1|}
+
+\DeclareMathOperator{\im}{im}
+
+\DeclareMathOperator{\vspan}{span}
+
+\let\hom\undefined
+\DeclareMathOperator{\hom}{Hom}
+
+% Switch implementation
+\newcommand{\ifequals}[3]{\ifthenelse{\equal{#1}{#2}}{#3}{}}
+\newcommand{\case}[2]{#1 #2} % Dummy, so \renewcommand has something to overwrite...
+\newenvironment{switch}[1]{\renewcommand{\case}{\ifequals{#1}}}{}
+
+\ExplSyntaxOn
+\NewDocumentCommand{\cycle}{ O{\;} m }
+ { 	
+  (
+  \alec_cycle:nn { #1 } { #2 }
+  )
+ }
+
+\seq_new:N \l_alec_cycle_seq
+\cs_new_protected:Npn \alec_cycle:nn #1 #2
+ {
+  \seq_set_split:Nnn \l_alec_cycle_seq { , } { #2 }
+  \seq_use:Nn \l_alec_cycle_seq { #1 }
+ }
+\ExplSyntaxOff
+
+\newcommand{\tensor}[1][]{
+	\ifthenelse{\isempty{#1}}
+	{
+		\otimes
+	}
+%	else
+	{
+		\otimes_{#1}
+	}
+}
+\newcommand{\cyclic}[1]{\langle #1 \rangle}

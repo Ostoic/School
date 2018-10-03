@@ -1,0 +1,667 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath, amsthm, epsfig, amssymb, blindtext}
+\usepackage{mathrsfs}
+\usepackage{enumerate}
+\usepackage{enumitem}
+\usepackage{pst-node}
+\usepackage{tikz-cd} 
+\usepackage{xifthen}
+\usepackage{xparse}
+\usepackage{pgfplots}
+
+\usepackage[left=1in,right=1in,top=1in,bottom=1in]{geometry}
+
+\geometry{papersize={8.5in,11in}}
+
+\textwidth 16.5 cm \textheight 21.8 cm
+
+\pagestyle{myheadings} \markboth{authors}{} \markright{}
+
+\include{commands}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+\newtheorem*{definition*}{Definition}
+\newtheorem{example}{Example}[section]
+\newtheorem*{example*}{Example}
+\newtheorem{remark}{Remark}[section]
+\newtheorem*{remark*}{Remark}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem*{theorem*}{Theorem}
+\newtheorem{proposition}[theorem] {Proposition}
+\newtheorem*{proposition*}{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem*{corollary*}{Corollary}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem*{lemma*}{Lemma}
+
+\newenvironment{solution}
+  {\begin{proof}[Solution]}
+  {\end{proof}}
+  
+\newcommand{\Or}{\text{ or }}
+\renewcommand{\And}{\text{ and }}
+
+\newcommand{\deriv}[1]{\frac{\text{d}}{\text{d} #1}}
+\newcommand{\pderiv}[1]{\frac{\partial}{\partial #1}}
+
+\begin{document}
+
+\baselineskip 18pt
+  
+\title{65-542 Assignment 1}
+
+\author{Shaun Ostoic}
+\date{October 3, 2018}
+
+\maketitle
+
+\begin{enumerate}
+\item For each of the following experiments, describe the sample space. 
+\begin{enumerate}
+\item Toss a coin four times.
+\item Count the number of insect-damaged leaves on a plant.
+\item Measure the liftime (in hours) of a particular brand of light bulb.
+\item Record the weights of 10-day-old rats.
+\item Observe the proportion of defectives in a shipment of electronic components.
+\end{enumerate}
+\begin{solution}
+\begin{enumerate}
+	\item A coin is tossed four times, so each element of the sample space consists of four letters $ T $ or $ H $, where a $ T $ (respectively, $ H $) in the $ i $th place denotes a tail (resp., head) was observed on the $ i $th toss. Since there are $ 2 $ possible choices for each toss and there are $ 4 $ tosses, there are $ 2^4 = 16 $ elements of the sample space. A few examples from the sample space are:
+		\begin{enumerate}
+		\item $ TTHH \in S $ two tails were observed upon throwing the first two coins, then two heads were observed subsequently.
+		\item $ THTT \in S$ one tail, followed by one head, followed by two tails were observed, in that order.
+		\end{enumerate}
+	\item The number of insect-damaged leaves on a plant can range from there being $ 0 $ leaves damaged, to large numbers of damaged leaves, $ n \in \mathbb{Z} $. The sample space in this case would consist of some finite set $ S = \{ 0, 1, \ldots, n \} $.
+	
+	\item Measurements are sure to include decimal places in order to preserve accuracy, so the sample space would be $ S = [0, \infty) $.
+	\item Weights of young rats can be represented by numbers such as $ 103.4 $ miligrams. Unless there is some limit on the weight of $ 10 $-day-old rats (which there resonably would be), our sample space could be $ S = [0, \infty) $ or any interval in between. An example: $ S = [10, 1000] $.
+	
+	\item The proportion of defective items refers to counting the number of defective items that exist out of the total number of items. Assuming the total number of component is $ N $, the proportion of defective components could be $ 0, \frac{1}{N}, \ldots, \frac{N}{N} $. That is, there could be $ 0 $ defective components, 1, or all of the components could be defective. The sample space would be $ S = \{ 0, \frac{1}{N}, \ldots, \frac{N}{N} = 1 \} $.
+\end{enumerate}
+\end{solution}
+	
+For the following exercises in which we prove various properties from set theory, we make use of basic predicate logic. This simplifies the proofs so that we need only list a chain of equivalences to prove each statement. Indeed, we are proving both sides of set inclusion, i.e., showing $ x \in A \implies x \in B $ and $ x \in B \implies x \in A $ so the proof is still valid, but we are proving both directions simultaneously. Some properties used from predicate logic are given in the following
+
+\begin{lemma*}
+Let $ P, Q$ and $ R $ be predicates.
+\begin{enumerate}
+\item $ \neg (P \And Q) \iff \neg P \Or \neg Q $ (distributivity of negation).
+\item $ \neg (P \Or Q) \iff \neg P \And \neg Q $ (distributivity of negation).
+\item $ P \And (Q \Or R) \iff (P \And Q) \Or (P \And R) $ (distributivity).
+\item $ P \Or (Q \And R) \iff (P \Or Q) \And (P \Or R) $ (distributivity).
+\item $ P \And \neg P \iff false$ (logical false).
+\item $ P \Or \neg P \iff true $ (tautology).
+\item $ P \Or false \iff P $.
+\end{enumerate}
+\end{lemma*}
+	
+Now we continue with the exercises.
+\item Verify the following identities.
+	\begin{enumerate}
+	\item $ A \setminus B = A \setminus (A \cap B) = A \cap B^c $
+	\item $ B = (B \cap A) \cup (B \cap A^c) $
+	\item $ B \setminus A = B \cap A^c $
+	\item $ A \cup B = A \cup (B \cap A^c) $
+	\end{enumerate}
+	\begin{solution}
+	\begin{enumerate}
+	\item \begin{align*}
+		x \in A \setminus (A \cap B) & \iff x \in A \And x \notin (A \cap B)\\
+		&\iff x \in A \And \neg (x \in A \cap B)\\
+		&\iff x \in A \And \neg (x \in A \And x \in B)\\
+		&\iff x \in A \And (x \notin A \Or x \notin B) , \text{ (distribute negation)}\\
+		&\iff (x \in A \And x \notin A) \Or (x \in A \And x \notin B), \text{ (distributivity)}\\
+		&\iff \text{false} \Or (x \in A \And x \notin B), \text{ (logical false)}\\
+		&\iff x \in A \And x \notin B, \text{ (false or $P$ $\iff P$)} \\
+		&\iff x \in A \And x \in B^c\\
+		&\iff x \in A \cap B^c\\
+		&\iff x \in A \setminus B.
+	\end{align*}
+	\item \begin{align*}
+			x \in B & \iff x \in B \And (x \in A \Or x \notin A), \text{ (tautology)}\\
+			&\iff x \in B \And (x \in A \Or x \in A^c)\\
+			&\iff (x \in B \And x \in A) \Or (x \in B \And x \in A^c), \text{ (distributivity of logical and/or)}\\
+			&\iff x \in B \cap A \Or x \in B \cap A^c\\
+			&\iff x \in (B \cap A) \cup (B \cap A^c)
+		\end{align*}
+	\item This is essentially the definition of set minus given in the book. Indeed, 
+		\begin{align*}
+			x \in B \setminus A & \iff x \in B \And x \notin A\\
+			& \iff x \in B \And x \in A^c\\
+			& \iff x \in B \cap A^c.
+		\end{align*}
+		
+	\item \begin{align*}
+		x \in A \cup B &\iff x \in A \Or x\in B\\
+		&\iff (x \in A \Or x \in B) \And \text{true}\\
+		&\iff (x \in A \Or x \in B) \And (x \in A \Or x \notin A)\\
+		&\iff x \in A \Or (x \in B \And x \notin A)\\
+		&\iff x \in A \Or (x \in B \And x \in A^c)\\
+		&\iff x \in A \Or x \in B \cap A^c\\
+		&\iff x \in A \cup (B \cap A^c)
+	\end{align*}
+	\end{enumerate}
+	\end{solution}
+	
+\item Finish the proof of Theorem $ 1.1.4 $. For any events $ A, B $, and $ C $ defined on a sample space $ S $, show that 
+	\begin{enumerate}
+	\item $ A \cup B = B \cup A $ and $ A \cap B = B \cap A $
+	\item $ A \cup (B \cup C) = (A \cup B) \cup C $ and $ A \cap (B \cap C) = (A \cap B) \cap C $
+	\item $ (A \cup B)^c = A^c \cap B^c $ and $ (A \cap B)^c = A^c \cup B^c $
+	\end{enumerate}
+	\begin{solution}
+	\begin{enumerate}
+	\item \begin{align*}
+			x \in A \cup B &\iff x \in A  \Or  x \in B \\
+			& \iff x \in B \Or x \in A\\
+			& \iff x \in B \cup A
+		\end{align*}
+		\begin{align*}
+			x \in A \cap B &\iff x \in A  \And  x \in B \\
+			& \iff x \in B \And x \in A\\
+			& \iff x \in B \cap A
+		\end{align*}
+		
+	\item First we prove assocativity of set union. We have the following chain of equivalences.
+		\begin{align*}
+			x \in A \cup (B \cup C) &\iff x \in A  \Or  x \in B \cup C \\
+			& \iff x \in A \Or (x \in B \Or x \in C)\\
+			& \iff (x \in A \Or x \in B ) \Or x \in C\\
+			& \iff x \in A \cup B \Or x \in C\\
+			& \iff x \in (A \cup B) \cup C
+		\end{align*}
+		
+	\item For associativity of set intersection, we proceed similarly.
+		\begin{align*}
+			x \in A \cap (B \cap C) &\iff x \in A  \And  x \in B \cap C \\
+			& \iff x \in A \And (x \in B \And x \in C)\\
+			& \iff (x \in A \And x \in B ) \And x \in C\\
+			& \iff x \in A \cap B \And x \in C\\
+			& \iff x \in (A \cap B) \cap C
+		\end{align*}
+		
+	\item \begin{align*}
+			x \in (A \cup B)^c & \iff x \notin (A \cup B)\\
+			&\iff \neg (x \in A \cup B)\\
+			&\iff \neg (x \in A \Or x \in B)\\
+			&\iff x \notin A \And x \notin B\\
+			&\iff x \in A^c \And x \in B^c\\
+			&\iff x \in A^c \cap B^c
+		\end{align*}
+		\begin{align*}
+			x \in (A \cap B)^c & \iff x \notin (A \cap B)\\
+			&\iff \neg (x \in A \cap B)\\
+			&\iff \neg (x \in A \And x \in B)\\
+			&\iff x \notin A \Or x \notin B\\
+			&\iff x \in A^c \Or x \in B^c\\
+			&\iff x \in A^c \cup B^c
+		\end{align*}
+	\end{enumerate}
+	\end{solution}
+	
+\item For events $ A $ and $ B $, find formulas for the probabilities of the following events in terms of the quantities $ P(A) $, $ P(B) $, and $ P(A \cap B) $.
+	\begin{enumerate}
+	\item either $ A $ or $ B $ or both
+	\item either $ A $ or $ B $ but not both
+	\item at least one of $ A $ or $ B $
+	\item at most one of $ A $ or $ B$
+	\end{enumerate}
+	\begin{solution}
+	\begin{enumerate}
+	
+	\item The event representing $ A $ or $ B $ or both is given by $ (A \cup B) \cup (A \cap B) $.
+		Since $ A \cap B \subset A \cup B $, it follows that $ (A \cup B) \cup (A \cap B) =  A \cup B$. Thus we have $ P(A \cup B) = P(A) + P(B) - P(A \cap B) $ by Theorem $ 1.2.9 $ $ (b) $ from the book.
+		
+	\item The event in question is $ (A \cup B) \setminus (A \cap B) $. By definition, we see that 
+		\begin{align*}
+			(A \cup B) \setminus (A \cap B) &= (A \cup B) \cap (A \cap B)^c\\
+			&= (A \cap B)^c \cap (A \cup B), \text{ by commutativity}\\
+			&= [ (A \cap B)^c \cap A] \cup [ (A \cap B)^c \cap B], \text{ by distributivity}\\
+			&= [ (A^c \cup B^c) \cap A ] \cup [ (A^c \cup B^c) \cap B ], \text{ by DeMorgan's Law}\\
+			&= [ (A^c \cap A) \cup (B^c \cap A) ] \cup [ (A^c \cap B) \cup (B^c \cap B) ] \\
+			&= [ \emptyset \cup (B^c \cap A) ] \cup [ (A^c \cap B) \cup \emptyset ]\\
+			&= [ B^c \cap A ] \cup [ A^c \cap B ]\\
+			&= (A \setminus B) \cup (B \setminus A)
+		\end{align*}
+		We see that $ A \setminus B $ and $ B \setminus A $ are disjoint, since 
+		\begin{align*}	
+			(A \setminus B) \cap (B \setminus A) &= (A \cap B^c) \cap (B \cap A)\\
+			&= (A \cap A^c) \cap (B \cap B^c)\\
+			&= \emptyset \cap \emptyset\\
+			&= \emptyset,
+		\end{align*}
+		hence $ P[ (A \setminus B) \cup (B \setminus A)] = P(A \cap B^c) + P(B \cap A^c) $. By Theorem $ 1.2.9 $ $(a)$, we have
+		\begin{align}
+			\label{1} P(A \cap B^c) &= P(A) - P(A \cap B)\\
+			\label{2} P(B \cap A^c) &= P(B) - P(A \cap B).
+		\end{align}
+		Using (\ref{1}) and (\ref{2}), it follows that
+		\begin{align*}
+			P((A \cup B) \setminus (A \cap B)) &= P((A \setminus B) \cup (B \setminus A))\\
+			&= [ P(A) - P(A \cap B) ] + [ P(B) - P(A \cap B)]\\
+			&= P(A) + P(B) - 2 P(A \cap B).
+		\end{align*}
+		
+	\item The event we consider is $ A \cup B $. This is because if $ x \in A \cup B $ then $ x $ resides in at least $ A $ or $ B $ or both. The solution is the same as part $ (a) $.
+	 
+	\item If at most one of $ A $ or $ B $ occurs, it follows that $ A $ and $ B $ do not occur simultaneously. That is, the event we consider is $ (A \cap B)^c  $. The probability is given as $ P((A \cap B)^c) = 1 - P(A \cap B) $.
+	\end{enumerate}
+	\end{solution}
+	
+\setcounter{enumi}{7}
+\item Again refer to the game of darts explained in Example $ 1.2.7 $.
+	\begin{enumerate}
+	\item Derive the general formula for the probability of scoring $ i $ points.
+	\item Show that $ P( $scoring $ i $ points$ ) $ is a decreasing function of $ i $, that is, as the points increases, the probability of scoring them decreases.
+	\item Show that $ P( $scoring $ i $ points$ ) $ is a probability function according to the Kolmogorov Axioms.
+	\end{enumerate}
+	
+	\begin{solution}
+	\begin{enumerate}
+	\item The probability of hitting region $ i $ can be given by 
+		\[ \frac{\text{Area of region } i}{\text{Area of the dart board}}, \]
+		where the area of the dart board is given by $ \pi r^2 $ since it is a circle. The area of a particular region is obtained by subtracting the area of region $ i $ (as a circle) from the area of region $ i - 1 $ (as a circle). That is, we subtract the area of circle $ i $ from the area of the circle containing $ i $. In particular, the area of region $ i = \pi (\frac{5 - (i - 1)}{5} r)^2 - \pi (\frac{(5 - i)}{5} r)^2 $. Expanding and simplifying this yields
+		\begin{align*}
+			\pi \left [ \left (\frac{(5 - (i-1)) r}{5} \right)^2 - \left ( \frac{(5 - i)r}{5} \right )^2 \right] &= \frac{\pi}{25}\left[ \left ( (6 - i))r \right)^2 - \left( (5 - i)r \right)^2 \right] \\
+			&= \frac{\pi r^2}{25} \left [ (6 - i) - (5 - i) \right] \left[ (6 - i) + (5 - i) \right]\\
+			&= \frac{\pi r^2}{25} (6 - 5 - i + i)(6 + 5 - i - i)\\
+			&= \frac{\pi r^2}{25} (11 - 2i).
+		\end{align*}
+		
+		Thus the probability of hitting region $ i $ is 
+		\[ P(X = i) = \frac{ \frac{\pi r^2}{25} (11 - 2i) }{\pi r^2} = \frac{11 - 2i}{25}.\]
+	
+	\item It is easy to see that as $ i $ increases, $ P(X = i) $ decreases. Taking the derivative of the function,
+		\begin{align*}
+			\deriv{x} P(x) &= \frac{-2}{25} < 0.
+		\end{align*}
+		This holds for all $ x \in \mathbb{R} $, hence $ P(X) $ is a decreasing function.
+		
+	\item The function $ P(X) $ given above has domain $ S = \{ 1, 2, 3, 4, 5\} $, which is the sample space. To prove that $ P $ is indeed a probability function, we will show that it satisfies the conditions of Theorem $ 1.2.6 $, from which it follows that $ P $ is a probability function. Let $ p_i := P(X = i) $ which we will show all sum to $ 1 $. 
+	\begin{align*}
+		\sum_{i = 1}^5 p_i &= \sum_{i = 1}^5 \frac{11 - 2i}{25}\\
+		&= \frac{\sum_{i=1}^5 11 - 2 \sum_{i=1}^5 i}{25}\\
+		&= \frac{5*11 - 2 \frac{5*6}{2} }{25}\\
+		&= \frac{55 - 30}{25} \\
+		&= \frac{25}{25} = 1.
+	\end{align*}
+	The probability function from the Theorem induced by the $ p_i $'s above coincides with $ P(X) $ since $ P( \{i\}) = \sum_{\{i \mid i \in \{i\} \} }p_i = p_i $, for all $ i \in S $.
+	\end{enumerate} 
+	\end{solution}
+	
+
+\setcounter{enumi}{31}
+\item An employer is about to hire one new employee from a group of $ N $ candidates, whose future potential can be rated on a scale from $ 1 $ to $ N $. The employer proceeds 
+according to the following rules:
+	\begin{enumerate}
+	\item Each candidate is seen in succession (in random order) and a decision is made whether to hire the candidate.
+	\item Having rejected $ m - 1 $ candidates ($ m > 1 $), the employer can hire the $ m $th candidate only if the $ m $th candidate is better than the previois $ m - 1 $.
+	\end{enumerate}
+Suppose a candidate is hired on the $ i $th trial. What is the probability that the best candidate was hired?
+
+\begin{solution}
+	There are $ N $ candidates in total and each candidate is randomly picked for a given trial. Thus, each candidate is picked for a trial with equal chance. For the first trial, each candidate has probability $ \frac{1}{N} $ that they will be picked. However, this does not speak to what probability they will be hired. On the other hand, if we consider the best candidate, $ B $, from the $ N $ candidates, they have probability $ \frac{1}{N} $ of being hired in the first trial. They will be hired immediately if they are picked since they are the best. Suppose the first trial has passed. Then candidate $ 1 $ was rejected, so there are now $ N - 1 $ candidates left. Candidate $ B $ has probability $ \frac{1}{N-1} $ of being picked and hence of being hired. If we continue in this manner, assuming the $ i -1 $st trial has passed, there are now $ N - (i - 1) $ candidates left. Thus, $ B $ has probability $ \frac{1}{N - (i - 1)} $ of being picked in the $ i $th trial.
+\end{solution}
+
+\item Suppose that $ 5 \% $ of men and $ .25 \% $ of women are color-blind. A person is chosen at random and that person is color-blind. What is the probability that the person is male? (Assume males and females to be in equal numbers).
+
+\begin{solution}
+	Let $ M $ denote the event that a chosen person is male, $ F $ denote the event that a chosen person is female, and let $ C $ denote the event that a chosen person is color-blind. The assumption describes the following process. Suppose a person is chosen at random. If they are male, then there is a $ 5 \% $ chance of them being color-blind. If the person chosen is female, then there is a $ 0.25 \% $ chance that they are color-blind. The probabilities we are given are
+	\begin{align*}
+		P(C \mid M) = 0.05 \And P(C \mid F) = 0.0025.
+	\end{align*}
+	The probability we are asked to compute is $ P(M \mid C) $. It is clear that either a person is exclusively male or female, so $ M \cup F = S $ form a partition of the sample space. Moreover, males and females are equal in number, there is a $ 50\% $ chance of choosing a male or a female. Using Baye's Rule, we have
+	\begin{align*}
+		P(M \mid C) &= \frac{ P(C \mid M) P(M) }{ P(C \mid F) P(F) + P(C \mid M) P(M)}\\
+		&= \frac{ 0.05 * 0.5 }{0.0025 * 0.5 + 0.05 * 0.5}\\
+		&\approx 0.952380952\\
+		&\approx 95\%
+	\end{align*}
+\end{solution}
+
+\item Two litters of a particular rodent species have been born, one with two brown-haired and one gray-haired (litter 1), and the other with three brown-haired and two gray-haired (litter 2). We select a litter at random and then select an offspring at random from the selected litter.
+\begin{enumerate}
+\item What is the probability that the animal chosen is brown-haired?
+\item Given that a brown-haired offspring was selected, what is the probability that the sampling was from litter 1?
+\end{enumerate}
+
+\begin{solution}
+\begin{enumerate}
+\item Litter $ 1 $ consists of elements $ \{ b, b, g \} $ and litter $ 2 $ consists of elements $ \{ b, b, b, g, g \} $, where $ b $ denotes a brown-haired animal and $ g $ denotes a gray-haired animal. Let $ L_i $ denote the event that litter $ i $ was chosen, and let $ B $ denote the event that a brown haired animal was selected. We are given $ P(L_1) = P(L_2) = \frac{1}{2} $, since each litter is selected randomly. It also follows that $ L_1^c = L_2 $, seeing as there are only two possible choices of litters. Moreover, assuming that litter $ 1 $ was selected, the probability of selecting a brown-haired animal is $ P(B \mid L_1) = \frac{2}{3} $, since each animal in a litter is selected with equal chance. Similarly, $ P(B \mid L_2) = \frac{3}{5} $. In order to calculate $ P(B) $, we use Theorem $ 1.2.9 $.
+\begin{align*}
+	P(B) &= P(B \cap L_1) + P(B \cap L_1^c)\\
+	&= P(B \cap L_1) + P(B \cap L_2)\\
+	&= P(B \mid L_1) P(L_1) + P(B \mid L_2) P(L_2)\\
+	&= \frac{2}{3} \frac{1}{2} + \frac{3}{5} \frac{1}{2}\\
+	&= \frac{1}{3} + \frac{3}{10}\\
+	&= \frac{19}{30}.
+\end{align*}
+
+\item Using the formula for conversion of conditional probabilities, we have
+\begin{align*}
+	P(L_1 \mid B) &= P(B \mid L_1) \frac{P(L_1)}{P(B)}\\
+	&= \frac{2}{3} \cdot \frac{ \frac{1}{2}} { \frac{19}{30}}\\
+	&= \frac{10}{19}.
+\end{align*}
+\end{enumerate}
+\end{solution}
+
+\item Prove that if $ P(.)$ is a legitimate probability function and $ B $ is a set with $ P(B) > 0 $, then $ P(. \mid B) $ also satisfies Kolmogorov's Axioms.
+\begin{solution}
+	We must show that $ P(. \mid B) $ satisfies the following conditions.
+	\begin{enumerate}
+	\item $ P(A \mid B) \geq 0 $ for all events $ A $.
+	\item $ P(S \mid B) = 1 $, where $ S $ is the sample space.
+	\item For pairwise disjoint sets $ A_1, A_2, \ldots \in \mathcal{B} $, $ P(\cup_{i=1}^\infty A_i) = \sum_{i=1}^\infty P(A_i) $.
+	\end{enumerate}
+	
+	First we note that $ P(B) \neq 0 $, so the conditional probability $ P(. \mid B) $ is defined for any event in its sample space. For (a), we have $ P(A \mid B) = \frac{P(A \cap B)}{P(B)} $. Since $ P $ is a probability function, we have $ P(A \cap B) \geq 0 $ and $ P(B) > 0$ by assumption, hence $ P(A \mid B) \geq 0 $.
+	
+	Next, we calculate $ P(S \mid B) = \frac{P(S \cap B)}{P(B)} = \frac{P(B)}{P(B)} = 1$.
+	
+	Last, we verify that the probability of a union of disjoint sets yields the sum of their probabilities.
+	\begin{align*}
+		P(\cup_{i=1}^\infty A_i \mid B) &= \frac{ P(\cup_{i=1}^\infty A_i) \cap B}{P(B)}
+	\end{align*}
+	\begin{align}
+		\label{3} &= \frac{ P(\cup_{i=1}^\infty (A_i \cap B)) }{P(B)}.
+	\end{align}
+	Since the $ A_i $'s are pairwise disjoint, the sets $ A_i\cap B $ are pairwise disjoint. Moreover, $ P $ is a probability function, hence (\ref{3}) yields
+	\begin{align*}
+		&= \frac{ \sum_{i=1}^\infty P(A_i \cap B) }{P(B)}\\
+		&= \sum_{i=1}^\infty \frac{P(A_i \cap B)}{P(B)}\\
+		&= \sum_{i=1}^\infty P(A_i \mid B).
+	\end{align*}
+	Therefore, $ P(. \mid B) $ is a probability function, since it satisfies the Kolmogorov Axioms.
+\end{solution}
+
+\item If the probability of hitting a target is $ \frac{1}{5} $, and ten shots are fired independently, what is the probability of the target being hit at least twice. What is the conditional probability that the target is hit at least twice, given that it is hit at least once?
+
+\begin{solution}
+Let $ X $ denote the number of times a shot hit the target sometime in the $ 10 $ trials. The probability we are interested in is $ P(X \geq 2) $. If we would like to determine the probability of hitting a target exactly once within $ 10 $ tries, this is the same as looking for $ 1 $ success in $ 10 $ tries, which suggests use of the binomial distribution. The probability of getting exactly $ k $ hits in $ n $ shots is given by
+\[ P(X = k) = \binom{n}{k}p^k (1 - p)^{n - k}, \]
+where $ p = \frac{1}{5} $. We first perform some preliminary calculations to simplify things.
+\begin{align*}
+	P(X=1) &= \binom{10}{1}p^1(1 - p)^9\\
+	&= 10 \left(\frac{1}{5} \right) \left(\frac{4}{5}\right)^9,
+\end{align*}
+
+\begin{align*}
+	P(X = 0) &= \binom{10}{0} p^0 \left(1 - p \right)^{10}\\
+	&= \left(\frac{4}{5} \right)^{10}.
+\end{align*}
+We see that $ P(X \geq 2) = P(\{X < 2\}^c) = 1 - P(X < 2) $, which gives 
+\begin{align*}
+	P(X \geq 2) &= 1 - P(X = 0 \Or X = 1)\\
+	&= 1 - [ P(X = 0) + P(X = 1) - P(X = 0 \cap X = 1) ]\\
+	&= 1 - P(X = 0) - P(X = 1)\\
+	&= 1 - \left(\frac{4}{5} \right)^{10} - 10 \left(\frac{1}{5} \right) \left(\frac{4}{5}\right)^9\\
+	&\approx 0.62419 = 62 \%.
+\end{align*}
+Note that it is impossible to both get exactly $ 0 $ hits and exactly $ 1 $ hit, so $ X = 0 \cap X = 1 = \emptyset $.
+
+For the next part, we are interested in the conditional probability
+\begin{align*}
+	P(X \geq 2 \mid X \geq 1) &= \frac{P(X \geq 2 \cap X \geq 1)}{P(X \geq 1)}\\
+	&= \frac{P(X \geq 2)}{1 - P(X < 1)}\\
+	&= \frac{P(X \geq 2)}{1 - P(X = 0)}\\
+	&= \frac{P(X \geq 2)}{1 - \left(\frac{4}{5} \right)^{10}}\\
+	&\approx 0.699274 = 70\%.
+\end{align*}
+\end{solution}
+
+\item Here we look at some variations of Example $ 1.3.4 $.
+	\begin{enumerate}
+	\item In the warden's calculation of Example $ 1.3.4 $ it was assumed that if $ A $ were to be pardoned, then with equal probability the warden would tell $ A $ that either $ B $ or $ C $ would die. However, this need not be the case. The warden can assign probabilities $ \gamma $ and $ 1 - \gamma $ to these events, as shown here: (Table is in the book)
+	
+	Calculate $ P(A \mid \mathcal{W}) $ as a function of $ \gamma $. For what values of $ \gamma$ is $ P(A \mid \mathcal{W}) $ less than, equal to, or greater than $ \frac{1}{3} $?
+	
+	\item Suppose again that $ \gamma = \frac{1}{2} $, as in the example. After the warden tells $ A $ that $ B $ will die, $ A $ thinks for a while and realizes that his original calculation was false. However, $ A $ then gets a bright idea. $ A $ asks the warden if he can swap fates with $ C $. The warden, thinking that no information has been passed, agrees to this. Prove that $ A $'s reasoning is now correct and that his probability of survival has jumped to $ \frac{2}{3} $!
+	\end{enumerate}
+	
+\begin{solution}
+\begin{enumerate}
+\item Let $ A, B, C, $ and $ \mathcal{W} $ denote the events as in the example. Let us write out the calculation from the example in more detail.
+\begin{align*}
+	P(\mathcal{W}) &= P(\mathcal{W} \cap A) + P(\mathcal{W} \cap B) + P(\mathcal{W} \cap C)\\
+	&= P(\mathcal{W} \mid A)P(A) + P(\mathcal{W}\mid B) P(B) + P(\mathcal{W} \mid C)P(C).
+\end{align*}
+The warden is not lying about his choice of whether to say $ B $ or $ C $ dies. We continue based on this assumption. If the governer decides to pardon $ A $, then there is a $ \gamma $ probability that the warden will decide to say that $ B $ dies to $ A $. There is a $ 1 - \gamma $ probability of him deciding to say that $ C $ dies instead. What we've described is $ P(\mathcal{W}\mid A) = \gamma $. Now if $ B $ is pardoned, the probability of the warden saying $ B $ dies must be $ 0 $, since he does not lie, hence $ P(\mathcal{W}\mid B) = 0 $. Last, if $ C $ is pardoned then it is guaranteed that the other two prisoners will die as they are on death row, i.e., $ P(\mathcal{W} \mid C) = 1 $. Now we can determine $ P(\mathcal{W}) = (\gamma) (\frac{1}{3}) + 0 + (1)(\frac{1}{3}) = \frac{\gamma + 1}{3}$. Using this we calculate
+\begin{align*}
+	P(A \mid \mathcal{W}) &= \frac{ P(\mathcal{W} \mid A) P(A)}{P(\mathcal{W})}\\
+	&= 3 \cdot \frac{ \gamma \frac{1}{3} }{\gamma + 1}\\
+	&= \frac{\gamma}{\gamma + 1}.
+\end{align*}
+We describe the values of $ \gamma $ for which the inequalities are satisfied below. Let $ \sim $ denote any one of $ <, >,  $ or $ = $. Then 
+\begin{align*}
+	\frac{\gamma}{\gamma + 1} &\sim \frac{1}{3}\\
+	3 \gamma &\sim \gamma + 1\\
+	2 \gamma &\sim 1\\
+	\gamma & \sim \frac{1}{2}.
+\end{align*}
+Thus 
+\[ P(A \mid \mathcal{W}) \begin{cases}
+	= \frac{1}{3}, &\text{ if } \gamma = \frac{1}{2}\\
+	< \frac{1}{3}, &\text{ if } \gamma < \frac{1}{2}\\
+	> \frac{1}{3}, &\text{ if } \gamma > \frac{1}{2}.
+\end{cases}\]
+
+\item We are given the assumption that the warden tells $ A $ that $ B $ will die, we know that either $ A $ or $ C $ will die. In the example we know that $ A $ still has probability $ \frac{1}{3} $ that he was pardoned. Let us determine the probability that $ C $ was pardoned, that is $ P(C \mid \mathcal{W}) $. We use the same technique, $ A, B, C$ form a partition, hence $ \mathcal{W} \cap A, \mathcal{W} \cap B, \mathcal{W} \cap C$ form a partition of the sample space. Using the fact that the conditional probability function is itself a probability function, summing elements of a probability gives $ 1 $. Thus
+\begin{align*}
+	1 &= P(A \mid \mathcal{W}) + P(B \mid \mathcal{W}) + P(C \mid \mathcal{W})\\
+	1 &= P(A \mid \mathcal{W}) + P(C \mid \mathcal{W}),\\
+	\implies P(C \mid \mathcal{W}) &= 1 - P(A \mid \mathcal{W})\\
+	&= 1 - \frac{1}{3} = \frac{2}{3}.
+\end{align*} 
+Therefore if $ A $ were to switch places with $ C $, his chances of survival would rise to $ \frac{2}{3} $.
+\end{enumerate}
+\end{solution}
+	
+\item Prove each of the following statements. (Assume that any conditioning event has positive probability.)
+	\begin{enumerate}
+	\item If $ P(B) = 1 $, then $ P(A \mid B) = P(A) $ for any $ A $.
+	\item If $ A \subset B $, then $ P(B \mid A) = 1 $ and $ P(A \mid B) = P(A) / P(B) $.
+	\item If $ A $ and $ B $ are mutually exclusive, then 
+	\[ P(A \mid A \cup B) = \frac{P(A)}{P(A) + P(B)}. \]
+	\item $ P(A \cap B \cap C) = P(A \mid B \cap C)P(B \mid C) P(C) $.
+	\end{enumerate}
+	
+	
+\begin{solution}
+	\begin{enumerate}
+	\item First observe that $ P(A \mid B) = \frac{P(A \cap B)}{P(B)} = P(A \cap B) $. Since $ B, B^c $ forms a partition of the sample space, Baye's Rule gives
+	\begin{align*}
+		P(B \mid A) &= \frac{ P(A \mid B) P(B) } {  P(A \mid B) P(B) + P(A \mid B^c) P(B^c)} \\
+		&= \frac{P(A \cap B) \cdot 1}{ P(A \cap B)\cdot 1 + P(A \mid B^c) (1 - P(B))}\\
+		&= \frac{ P(A \cap B)}{ P(A \cap B) + 0}\\
+		&= 1.
+	\end{align*}
+	Then we use the formula to convert between conditional probabilities
+	\begin{align*}
+		P(A \mid B) &= P(B \mid A) \frac{P(A)}{P(B)}\\
+		&= 1 \cdot \frac{P(A)}{1}\\
+		&= P(A),
+	\end{align*}
+	as desired.
+	
+	\item We make use of the fact that if $ A \subset B $ then $ B^c \cap A = \emptyset $. To see this is true, let $ x \in B^c \cap A $. Then $ x \notin B $ and $ x \in A $. By assumption, $ A \subset B $, so $ x \in B $. Thus we have $ x \notin B $ and $ x \in B $, a contradiction. Thus, $ B^c \cap A = \emptyset $.
+	
+	From here, we make use of Theorem $ 1.2.9 $, giving $ P(A) = P(A \cap B) + P(A \cap B^c)$. Then $ P(A \cap B^c) = P(\emptyset) = 0 $ so $ P(A) = P(A \cap B) $. The conditional probability is then 
+	\begin{align*}
+		P(B \mid A) &= \frac{P(A \cap B)}{P(A)}\\
+		&= \frac{P(A)}{P(A)}\\
+		&= 1.
+	\end{align*}
+	Using the formula to convert between conditional probabilities, we conclude
+	\begin{align*}
+		P(A \mid B) &= P(B \mid A) \frac{P(A)}{P(B)}\\
+		&= \frac{P(A)}{P(B)}.
+	\end{align*}
+	
+	\item Since $ A $ and $ B $ are mutually exclusive (they are disjoint), we have $ A \cap B = \emptyset $. Then 
+	\begin{align*}
+		A \cap (A \cup B) &= (A \cap A) \cup (A \cap B)\\
+		&= A \cup \emptyset = A.
+	\end{align*}
+	Using this to calculate the conditional probabilty, we have
+	\begin{align*}
+		P(A \mid A \cup B) &= \frac{P(A \cap (A \cup B))}{P(A \cup B)}\\
+		&= \frac{ P(A) }{P(A \cup B)}\\
+		&= \frac{P(A)}{P(A) + P(B) - P(A\cap B)}\\
+		&= \frac{P(A)}{P(A) + P(B) - P(\empty)}\\
+		&= \frac{P(A)}{P(A) + P(B)}.
+	\end{align*}
+	
+	\item This follows easily from associativity of intersection and using $ P(A \mid B) = \frac{P(A \cap B)}{P(B)} \implies P(A \cap B) = P(A \mid B) P(B)$.
+	\begin{align*}
+		P(A \cap B \cap C) &= P(A \cap (B \cap C))\\
+		&= P(A \mid B \cap C) P(B \cap C)\\
+		&= P(A \mid B \cap C) [ P(B \mid C) P(C) ]\\
+		&= P(A \mid B \cap C) P(B \mid C) P(C).
+	\end{align*}
+	\end{enumerate}
+
+\end{solution}
+
+\setcounter{enumi}{50}
+\item An appliance store receives a shipment of $ 30 $ microwave ovens, $ 5 $ of which are (unknown to the manager) defective. The store manager selects $ 4 $ ovens at random, without replacement, and tests to see if they are defective. Let $ X = $ number of defectives found. Calculate the pmf and cdf of $ X $ and plot the cdf.
+
+\begin{solution}
+The range of the random variable is $ X = 0, 1, 2, 3, $ or $4 $. Thus, we must calculate each probability to find the pmf of $ X $.
+For $ X = 0 $, this is essentially describing the situation in which no defectives are chosen. In this event there are $ 25 $ ovens to choose $ 4 $ from, while we choose $ 0 $ defectives from the $ 5 $ total defectives. In particular, the number of ways we can choose $ 4 $ non-defective ovens from $ 25 $ is $ \binom{25}{4} $. This is unordered, since we only want to count the number of such ovens, and not the ovens in particular. The total number of ways we can choose $ 4 $ ovens from $ 30 $ is $ \binom{30}{4} $. Thus,
+\[ P(X = 0) = \frac{\binom{25}{4}}{ \binom{30}{4}} = \frac{12650}{27405} = 46 \%. \]
+
+Next, we want to count the number of ways we can choose $ 3 $ non-defectives and $ 1 $ defective oven. The number of non-defectives we count is $ \binom{25}{3} $ and the number of defectives is $ \binom{5}{1} $. By the fundamental theorem of counting, this gives $ \binom{5}{1}  \binom{25}{3}$ combinations of $ 1$ defective and $ 3 $ non-defective ovens.
+
+Similarly, for choosing $ i $ defectives and $ 4 - i $ non-defectives, there are $ \binom{5}{i} \binom{25}{4 - i} $ combinations. From this we have determined the pmf:
+\begin{align*}
+	P(X = 0) &= 0.461594 \\
+	P(X = 1) &= \frac{\binom{5}{1} \binom{25}{3}}{ \binom{30}{4}} = \frac{5 \cdot 2300}{27405} = 0.41963\\
+	P(X = 2) &= \frac{\binom{5}{2} \binom{25}{2}}{ \binom{30}{4}} = \frac{10 \cdot 300}{27405} = 0.109468 \\
+	P(X = 3) &= \frac{\binom{5}{3} \binom{25}{1}}{ \binom{30}{4}} = \frac{10 \cdot 25}{27405} = 0.0091224 \\
+	P(X = 4) &= \frac{\binom{5}{4} \binom{25}{0}}{ \binom{30}{4}} = \frac{5 \cdot 1  }{27405} = 0.0001824 .\\
+\end{align*}
+Next we calculate the cdf $F_X(x) $.
+\begin{align*}
+	F_X(0) &= P(X \leq 0) = P(X = 0) = 0.461594\\
+	F_X(1) &= P(X \leq 1) = P(X = 0) + P(X = 1) = 0.461594 + 0.41963 = 0.881224\\
+	F_X(2) &= P(X \leq 2) = P(X \leq 1) + P(X = 2) = 0.881224 + 0.109468 = 0.990692\\
+	F_X(3) &= P(X \leq 3) = P(X \leq 2) + P(X = 3) = 0.990692 + 0.0091224 = 0.9998144\\
+	F_X(4) &= P(X \leq 4) = P(X \leq 3) + P(X = 4) = 0.0001824 + 0.9998144 = 1.
+\end{align*}
+
+Since $ X $ is a discrete random variable, the cdf is step-wise:
+
+\pgfplotsset{%
+    ,compat=1.12
+    ,every axis x label/.style={at={(current axis.right of origin)},anchor=north west}
+    ,every axis y label/.style={at={(current axis.above origin)},anchor=north east}
+    }
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[%
+    ,xlabel=$x$
+    ,ylabel=$F_X(x)$
+    ,axis x line = bottom,axis y line = left
+    ,ytick={0.25,0.5,...,1}
+    ,ymax=1.2 % or enlarge y limits=upper
+    ]
+\addplot+[const plot, no marks, thick] coordinates {(0,0.461594) (1,0.881224) (2,0.990692) (3,0.9997144) (4,1) } node[below=1.15cm,pos=.76,black] {$F_X(x) = P(X \leq x)$};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\end{solution}
+
+\item Let $ X $ be a continuous random variable with pdf $  f(x)$ and cdf $ F(x) $. For a fixed number $ x_0 $, define the function
+\[ g(x) = 
+\begin{cases}
+	f(x) / [1 - F(x_0)], & x \geq x_0 \\
+	0, &  x < x_0.
+\end{cases}\]
+Prove that $ g(x) $ is a pdf. (Assume that $ F(x_0) < 1. $)
+
+\begin{solution}
+Using Theorem $ 1.6.5 $, we must first verify that $ g(x) \geq 0 $ for all $ x $. Since $ F(x_0) < 1 $, it follows that $ 1 - F(x_0) > 0 \implies \frac{1}{1 - F(x_0)} > 0 $. Moreover, $ f(x) \geq 0 $ since $ f(x) $ is a pdf itself; hence $ f(x) \frac{1}{1 - F(x_0)} = g(x) \geq 0 $ for all $ x \geq x_0$. If $ x < x_0$ then $ g(x) = 0 $ which is obviously non-negative. Now we must show that 
+\[ \int_{-\infty}^\infty g(x) dx = 1. \]
+Observe that the integral vanishes when $ x < x_0 $, so we have
+\begin{align*}
+	\int_{-\infty}^\infty g(x) &= \int_{x_0}^\infty g(x)dx\\
+	&= \int_{x_0}^\infty \frac{f(x)}{1 - F(x_0)} dx\\
+	&= \frac{1}{1 - F(x_0)} \int_{x_0}^\infty f(x) dx\\
+	&= \frac{1}{1 - F(x_0)} \left ( \int_{-\infty}^\infty  f(x) dx - \int_{-\infty}^{x_0} f(x) dx\right)\\
+	&= \frac{1}{1 - F(x_0)} (1 - F(x_0))\\
+	&= 1.
+\end{align*}
+Therefore, $ g(x) $ is a pdf.
+\end{solution}
+
+\item A certain river floods every year. Suppose that the low-water mark is set at $ 1 $ and the high-water mark $ Y $ has distribution function
+\[ F_Y(y) = P(Y \leq y) = 1 - \frac{1}{y^2}, 1 \leq y < \infty. \]
+\begin{enumerate}
+\item Verify that $ F_Y(y) $ is a cdf.
+\item Find $ f_Y(y) $, the pdf of $ Y $.
+\item If the low-water mark is reset at $ 0 $ and we use a unit of measurement that is $ \frac{1}{10} $ of that given previously, the high-water mark becomes $ Z = 10(Y - 1) $. Find $ F_Z(z) $.
+\end{enumerate}
+
+\begin{solution}
+
+\begin{enumerate}
+\item We will use Theorem $ 1.5.3 $ to verify that $ F_Y(y) $ is a cdf. For $ y < 0 $, we have $ F_Y(y) = 0 $ so it is clear that 
+\[ \lim_{y \to -\infty} F_Y(y) = 0. \]
+Moreover, 
+\begin{align*}
+	\lim_{y \to \infty} F_Y(y) &= \lim_{y \to \infty} 1 - \frac{1}{y^2}\\
+	&= 1 - \lim_{y \to \infty} \frac{1}{y^2}\\
+	&= 1 - 0 = 1.
+\end{align*}
+Thus, part (a) of the theorem is satisfied. 
+
+Next we show that $ F_Y(y) $ is nondecreasing. When $ y \leq 1 $ $ F_Y(y) = 0$ so is constant. Otherwise, 
+\[ \deriv{y} F_Y(y) = \frac{2}{y^3} > 0, \]
+for all such $ y $. This implies that $ F_Y(y) $ is strictly increasing when $ y > 1 $, hence is nondecreasing. Thus, $ F_Y(y) $ is nondecreasing everywhere. Lastly, to show that $ F_Y(y) $ is right-continuous, the only point of concern is when $ y = 1 $. However,
+\begin{align*}
+	\lim_{y \to 1^+} F_Y(y) &= 1 - \lim_{y \to 1^+}\frac{1}{y^2}\\
+	&= 1 - 1 = 0\\
+	&= F_Y(1).
+\end{align*}
+
+\item The pdf is calculated by differentiating the cdf: $\deriv{y} F_Y(y) = \deriv{y} (1 - \frac{1}{y^2}) = \frac{2}{y^3}$. Since the cdf is defined for all $ y \in \mathbb{R} $, $ F_Y(y) = 0 $ for $ y < 1 $. Thus the pdf is given by 
+\[ f_Y(y) = 
+\begin{cases}
+	\frac{2}{y^3}, &y > 1\\
+	0, & y \leq 1
+\end{cases}. \] 
+
+\item We determine $ F_Z(z) $ by manipulating the probability function associated with the cdf. The cdf of $ Y $ is given by 
+\[ F_Y(y) = P(Y \leq y), \]
+so with this in mind we have
+\begin{align*}
+	F_Z(z) = P(Z \leq z) &= P(10(Y - 1) \leq z)\\
+	&= P(10Y - 10 \leq z)\\
+	&= P(Y \leq \frac{z + 10}{10})\\
+	&= F_Y(\frac{z+ 10}{10})\\
+	&= 1 - \frac{1}{\frac{(z + 10)^2}{100}}\\
+	&= 1 - \frac{100}{(z + 10)^2},
+\end{align*}
+for $1 < (\frac{z+10}{10}) < \infty$. Solving for the inequality, we have 
+\begin{align*}
+	1 &< \frac{z + 10}{10}\\
+	10 &<  z + 10\\
+	0 &< z.
+\end{align*} 
+Thus, if $ z \leq 0 $, $ F_Z(z) = 0 $ and if $ z > 0 $, the cdf is given by the above equation. That is,
+\[ F_Z(z) = \begin{cases}
+	1 - \frac{100}{(z + 10)^2}, & 0 < z < \infty\\
+	0, &z \leq 0.
+\end{cases} \]
+\end{enumerate}
+
+\end{solution}
+\end{enumerate}
+
+\end{document}
+
